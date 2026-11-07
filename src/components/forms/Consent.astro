@@ -1,0 +1,18 @@
+---
+/**
+ * SMS / call consent (TCPA prior express written consent for automated texts).
+ * Optional and never pre-checked. The exact wording + version is stored with
+ * each lead (consent_version + consent_timestamp hidden fields).
+ */
+import { consentText } from '../../config/site';
+import { rich } from '../../lib/text';
+interface Props { idPrefix: string; tone?: 'light' | 'dark' }
+const { idPrefix, tone = 'light' } = Astro.props;
+---
+<div class:list={['flex gap-3 rounded-xl p-3 text-xs leading-relaxed', tone === 'light' ? 'bg-ivory-deep/70 text-muted' : 'bg-white/5 text-ivory/75']}>
+  <input id={`${idPrefix}-sms-consent`} name="sms_consent" type="checkbox" value="yes" class="mt-0.5 h-5 w-5 shrink-0 cursor-pointer accent-navy" />
+  <label for={`${idPrefix}-sms-consent`} class="cursor-pointer">
+    <span set:html={rich(consentText())} />
+    {' '}See our <a href="/privacy/" class="link-underline" target="_blank">Privacy Policy</a> and <a href="/sms-terms/" class="link-underline" target="_blank">SMS Terms</a>.
+  </label>
+</div>

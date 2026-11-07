@@ -1,0 +1,57 @@
+---
+interface Props {
+  id: string;
+  name: string;
+  label: string;
+  type?: astroHTML.JSX.HTMLInputTypeAttribute;
+  as?: 'input' | 'select' | 'textarea';
+  options?: { value: string; label: string }[];
+  required?: boolean;
+  autocomplete?: string;
+  placeholder?: string;
+  hint?: string;
+  inputmode?: 'text' | 'numeric' | 'tel' | 'email' | 'decimal' | 'search' | 'url';
+  pattern?: string;
+  prefill?: string;
+  rows?: number;
+  class?: string;
+  minlength?: number;
+}
+const {
+  id, name, label, type = 'text', as = 'input', options = [], required = false, autocomplete, placeholder,
+  hint, inputmode, pattern, prefill, rows = 4, class: className = '', minlength,
+} = Astro.props;
+const describedBy = [hint ? `${id}-hint` : null, `${id}-error`].filter(Boolean).join(' ');
+const shortLabel = label.replace(/\s*\(optional\)\s*/i, '');
+---
+<div class={className}>
+  <label for={id} class="field-label">
+    {label}{required && <span class="text-gold-ink" aria-hidden="true"> *</span>}
+  </label>
+  {as === 'select' ? (
+    <select id={id} name={name} required={required} autocomplete={autocomplete} aria-describedby={describedBy} data-label={shortLabel} class="field appearance-none bg-[url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2220%22 height=%2220%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%231b2a41%22 stroke-width=%222%22><path d=%22m6 9 6 6 6-6%22/></svg>')] bg-[length:1.1rem] bg-[right_1rem_center] bg-no-repeat pr-10">
+      <option value="">Select…</option>
+      {options.map((o) => <option value={o.value}>{o.label}</option>)}
+    </select>
+  ) : as === 'textarea' ? (
+    <textarea id={id} name={name} rows={rows} required={required} placeholder={placeholder} aria-describedby={describedBy} data-label={shortLabel} class="field resize-y" />
+  ) : (
+    <input
+      id={id}
+      name={name}
+      type={type}
+      required={required}
+      autocomplete={autocomplete}
+      placeholder={placeholder}
+      inputmode={inputmode}
+      pattern={pattern}
+      minlength={minlength}
+      data-prefill={prefill}
+      aria-describedby={describedBy}
+      data-label={shortLabel}
+      class="field"
+    />
+  )}
+  {hint && <p id={`${id}-hint`} class="field-hint">{hint}</p>}
+  <p id={`${id}-error`} class="field-error" role="alert" hidden></p>
+</div>

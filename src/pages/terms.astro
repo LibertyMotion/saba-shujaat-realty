@@ -1,0 +1,20 @@
+---
+import LegalPage from '../components/LegalPage.astro';
+import { agent, brokerage } from '../config/site';
+import { rich } from '../lib/text';
+---
+<LegalPage title="Terms of Use" description={`Terms of use for ${agent.name}'s website.`} updated="November 2026">
+  <p>By using this website you agree to these terms.</p>
+  <h2>Information only</h2>
+  <p>Content on this site is for general information and is not legal, tax or financial advice. Market information, community descriptions and school information are deemed reliable but not guaranteed and should be independently verified. School district boundaries, taxes and zoning should be confirmed by exact address with the appropriate public authority.</p>
+  <h2>Home valuations</h2>
+  <p>A comparative market analysis or home value opinion is not an appraisal and should not be relied on as one.</p>
+  <h2>Brokerage</h2>
+  <p>{agent.name} is a licensed real estate salesperson in Ohio affiliated with <span set:html={rich(brokerage.name)} />. {brokerage.disclaimer} RE/MAX® and the RE/MAX logo are trademarks of RE/MAX, LLC. REALTOR® is a federally registered collective membership mark identifying real estate professionals who are members of the National Association of REALTORS®.</p>
+  <h2>No solicitation of listed properties</h2>
+  <p>If your property is currently listed with another broker, this is not intended as a solicitation of that listing.</p>
+  <h2>Links</h2>
+  <p>We aren’t responsible for the content or practices of third-party websites linked from this site.</p>
+  <h2>Contact</h2>
+  <p>Questions? Email <span set:html={rich(agent.email)} />.</p>
+</LegalPage>

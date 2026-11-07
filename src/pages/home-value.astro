@@ -1,0 +1,52 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import Testimonials from '../components/Testimonials.astro';
+import Portrait from '../components/Portrait.astro';
+import HomeValueForm from '../components/forms/HomeValueForm.astro';
+import { agent, brokerage, promises } from '../config/site';
+import { rich } from '../lib/text';
+---
+<Base title="What’s My Home Worth? Free Home Valuation" description={`Get a free, personalized home value report for your Westerville or Central Ohio home from ${agent.name} — real local analysis, not an automated estimate.`} mobileCta={{ primaryHref: '#valuation-form', primaryLabel: 'Get value' }}>
+  <section class="relative overflow-hidden">
+    <div aria-hidden="true" class="pointer-events-none absolute -left-40 top-10 h-[30rem] w-[30rem] rounded-full border border-gold/20"></div>
+    <div class="container-x relative grid items-start gap-12 py-12 sm:py-16 lg:grid-cols-[1fr_1fr] lg:gap-16 lg:py-20">
+      <div>
+        <p class="eyebrow">Free home valuation</p>
+        <h1 class="mt-5 text-[clamp(2.6rem,5.6vw,4.4rem)] text-navy">What’s your home <em class="text-gold-ink">really</em> worth?</h1>
+        <p class="mt-6 max-w-xl text-lg leading-relaxed text-muted">Get a personalized market analysis from a local agent who knows your neighborhood — {promises.valuationTurnaround}, free and with no obligation.</p>
+        <ul class="mt-8 grid gap-4 sm:grid-cols-2">
+          {[
+            { i: 'pin', t: 'Real comparable sales', d: 'Homes like yours that actually sold nearby.' },
+            { i: 'trending', t: 'Current market trends', d: 'Inventory, demand and days on market now.' },
+            { i: 'tag', t: 'Recommended price range', d: 'Plus an estimate of your net proceeds.' },
+            { i: 'shield', t: 'Private & no pressure', d: `Only ${agent.firstName} sees your info. Never sold.` },
+          ].map((x) => (
+            <li class="flex gap-3">
+              <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-ivory-deep text-gold-ink"><Icon name={x.i as 'pin'} size={18} /></span>
+              <span><strong class="block text-navy">{x.t}</strong><span class="text-sm text-muted">{x.d}</span></span>
+            </li>
+          ))}
+        </ul>
+        <div class="mt-10 hidden items-center gap-5 lg:flex">
+          <div class="w-24"><Portrait sizes="96px" /></div>
+          <div>
+            <p class="font-display text-xl font-semibold text-navy">{agent.name}</p>
+            <p class="font-display text-xl font-semibold text-navy" set:html={rich(brokerage.name)} />
+            <p class="text-sm text-muted">{agent.title} · Westerville, Ohio</p>
+          </div>
+        </div>
+      </div>
+      <div id="valuation-form" class="card scroll-mt-24 p-6 sm:p-9">
+        <HomeValueForm idPrefix="hv" headingLevel="h2" />
+      </div>
+    </div>
+  </section>
+
+  <section class="border-t border-line bg-white/60 py-20">
+    <div class="container-x">
+      <h2 class="text-center text-[clamp(2rem,4vw,3rem)] text-navy">What homeowners say</h2>
+      <div class="mt-12"><Testimonials ids={['shukria', 'dana', 'muzaffar']} /></div>
+    </div>
+  </section>
+</Base>

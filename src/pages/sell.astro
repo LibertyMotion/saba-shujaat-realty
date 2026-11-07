@@ -1,0 +1,97 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import Testimonials from '../components/Testimonials.astro';
+import FAQ from '../components/FAQ.astro';
+import CTABand from '../components/CTABand.astro';
+import Icon from '../components/Icon.astro';
+import HomeValueForm from '../components/forms/HomeValueForm.astro';
+import GuideForm from '../components/forms/GuideForm.astro';
+import { agent, promises } from '../config/site';
+import { sellerFaqs } from '../data/faqs';
+
+// Confirm each item reflects services Saba actually provides before launch.
+const plan = [
+  { icon: 'tag', title: 'Data-driven pricing', body: 'A detailed market analysis of recent sales, active competition and buyer demand — so you list at the price that attracts the strongest offers.' },
+  { icon: 'sparkles', title: 'Preparation that pays off', body: 'A walkthrough with prioritized, budget-conscious advice on repairs, staging and curb appeal — and what to skip.' },
+  { icon: 'camera', title: 'Marketing that stands out', body: 'Professional photography, a compelling listing presentation, MLS exposure and targeted promotion to reach serious buyers.' },
+  { icon: 'shield', title: 'Negotiation & protection', body: 'Careful review of every offer’s price, terms, financing and contingencies — then steady guidance through inspection and appraisal.' },
+] as const;
+---
+<Base title="Sell Your Home in Westerville" description={`Thinking of selling in Westerville or Central Ohio? Get a free personalized home value report ${promises.valuationTurnaround} and a clear plan from ${agent.name}.`}>
+  <PageHero eyebrow="Selling" title="Sell with a plan — and with confidence." lead={`From pricing to closing, ${agent.firstName} helps Central Ohio homeowners sell for the best possible terms with less stress.`} crumbs={[{ label: 'Sell' }]}>
+    <div class="mt-8 flex flex-wrap gap-3">
+      <a href="#valuation" class="btn btn-primary">Get my free home value</a>
+      <a href={`tel:${agent.phoneE164}`} data-track-location="sell_hero" class="btn btn-outline"><Icon name="phone" size={18} /> Talk with {agent.firstName}</a>
+    </div>
+  </PageHero>
+
+  <section class="py-20 sm:py-28">
+    <div class="container-x">
+      <SectionHeading eyebrow="The selling plan" title="Everything it takes to sell well." />
+      <ul class="mt-14 grid gap-6 md:grid-cols-2">
+        {plan.map((p, i) => (
+          <li class="card flex gap-5 p-7 sm:p-8" data-reveal style={`transition-delay:${i * 60}ms`}>
+            <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-ivory-deep text-gold-ink"><Icon name={p.icon} size={22} /></span>
+            <div>
+              <h3 class="text-2xl text-navy">{p.title}</h3>
+              <p class="mt-2 leading-relaxed text-muted">{p.body}</p>
+            </div>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section id="valuation" class="on-dark scroll-mt-24 bg-navy py-20 text-ivory sm:py-28">
+    <div class="container-x grid items-start gap-12 lg:grid-cols-2 lg:gap-20">
+      <div data-reveal>
+        <p class="eyebrow">Step one</p>
+        <h2 class="mt-4 text-[clamp(2.2rem,4.5vw,3.4rem)]">Find out what your home is worth today.</h2>
+        <p class="mt-6 text-lg leading-relaxed text-ivory/75">Your personalized market analysis includes recent comparable sales, current competition, a recommended price range and an estimate of your net proceeds — delivered {promises.valuationTurnaround}.</p>
+        <p class="mt-6 flex items-center gap-2 text-sm text-ivory/65"><Icon name="lock" size={16} /> Your information is only shared with {agent.firstName}. Never sold.</p>
+      </div>
+      <div class="rounded-[1.5rem] bg-ivory p-6 text-ink shadow-[var(--shadow-lift)] sm:p-9" data-reveal>
+        <HomeValueForm idPrefix="sell-hv" />
+      </div>
+    </div>
+  </section>
+
+  <section id="sell-and-buy" class="scroll-mt-24 py-20 sm:py-28">
+    <div class="container-x grid items-center gap-12 lg:grid-cols-2 lg:gap-20">
+      <div data-reveal>
+        <p class="eyebrow">Selling &amp; buying</p>
+        <h2 class="mt-4 text-[clamp(2.1rem,4.2vw,3.2rem)] text-navy">Moving up or right-sizing? Coordinate both moves.</h2>
+        <p class="mt-6 text-lg leading-relaxed text-muted">The hardest part of a move is usually timing. {agent.firstName} helps you weigh your options — selling first with a rent-back, buying with a home-sale contingency, or bridge financing — and builds a timeline that protects you on both sides.</p>
+        <ul class="mt-8 space-y-3">
+          {['Know your equity and buying power before you start', 'One coordinated calendar for listing, searching and closing', 'Negotiation strategies that protect your timeline'].map((b) => (
+            <li class="flex gap-3"><Icon name="check" size={20} class="mt-0.5 text-gold" strokeWidth={2.25} /><span>{b}</span></li>
+          ))}
+        </ul>
+      </div>
+      <div class="card p-7 sm:p-9" data-reveal>
+        <p class="eyebrow">Free download</p>
+        <h3 class="mt-3 text-3xl text-navy">The Seller’s Playbook</h3>
+        <p class="mt-2 text-muted">Prep checklists, pricing strategy and a sell-and-buy timeline — sent straight to your inbox.</p>
+        <GuideForm idPrefix="sell-guide" guide="Seller's Playbook" class="mt-6" />
+      </div>
+    </div>
+  </section>
+
+  <section class="border-y border-line bg-white/60 py-20 sm:py-24">
+    <div class="container-x">
+      <SectionHeading eyebrow="Client stories" title="Sellers who trusted the plan." align="center" />
+      <div class="mt-12"><Testimonials ids={['shukria', 'dana', 'muzaffar']} /></div>
+    </div>
+  </section>
+
+  <section class="py-20 sm:py-28">
+    <div class="container-x grid gap-12 lg:grid-cols-[0.8fr_1.2fr]">
+      <SectionHeading eyebrow="Seller FAQs" title="What sellers ask most." />
+      <FAQ items={sellerFaqs} />
+    </div>
+  </section>
+
+  <CTABand title="Let’s talk about your move." />
+</Base>

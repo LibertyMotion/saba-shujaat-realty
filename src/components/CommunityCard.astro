@@ -1,0 +1,31 @@
+---
+import type { Community } from '../data/communities';
+import Icon from './Icon.astro';
+interface Props { community: Community; index?: number; headingLevel?: 'h2' | 'h3' }
+const { community: c, index = 0, headingLevel: H = 'h3' } = Astro.props;
+// Subtle tonal variety until real neighborhood photography is added.
+const tones = [
+  'from-navy to-navy-soft',
+  'from-[#24344d] to-[#3a4b66]',
+  'from-[#1f2f47] to-[#4a5a72]',
+];
+---
+<a
+  href={`/communities/${c.slug}/`}
+  class="group relative flex min-h-56 flex-col justify-end overflow-hidden rounded-[var(--radius-card)] p-6 text-ivory shadow-[var(--shadow-soft)] transition duration-300 hover:-translate-y-1 hover:shadow-[var(--shadow-lift)]"
+  data-reveal
+  style={`transition-delay:${(index % 3) * 70}ms`}
+>
+  <div aria-hidden="true" class:list={['absolute inset-0 bg-gradient-to-br', tones[index % tones.length]]}></div>
+  <svg aria-hidden="true" class="absolute -right-6 -top-4 h-40 w-40 text-gold-light/15 transition-transform duration-500 group-hover:scale-105" viewBox="0 0 120 120" fill="none" stroke="currentColor" stroke-width="1.2">
+    <path d="M10 70 60 28l50 42" /><path d="M22 60v48h76V60" /><path d="M50 108V80h20v28" /><path d="M78 40V22h10v26" />
+  </svg>
+  <div class="relative">
+    <p class="text-xs font-semibold uppercase tracking-[0.2em] text-gold-light">{c.county}</p>
+    <H class="mt-2 text-3xl">{c.name}</H>
+    <p class="mt-2 max-w-xs text-sm leading-relaxed text-ivory/80">{c.tagline}</p>
+    <span class="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-gold-light">
+      Explore {c.name} <Icon name="arrowRight" size={16} class="transition-transform group-hover:translate-x-1" />
+    </span>
+  </div>
+</a>

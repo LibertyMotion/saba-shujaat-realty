@@ -1,0 +1,17 @@
+---
+import LegalPage from '../components/LegalPage.astro';
+import { agent, brokerage } from '../config/site';
+import { rich } from '../lib/text';
+---
+<LegalPage title="SMS Terms" description={`Text message terms for ${agent.name}.`} updated="November 2026">
+  <p>By checking the text-message consent box on a form on this website, you agree to receive calls and text messages from <span set:html={rich(`${agent.name} and ${brokerage.name}`)} /> at the number you provided about your real estate inquiry, which may include home valuations, listing information, appointment scheduling and follow-up. Messages may be sent using automated technology.</p>
+  <ul>
+    <li><strong>Consent is optional</strong> and is not a condition of any purchase or service.</li>
+    <li><strong>Message frequency varies</strong> based on your inquiry and conversation.</li>
+    <li><strong>Message and data rates may apply</strong> according to your mobile plan.</li>
+    <li><strong>To opt out</strong>, reply STOP at any time. You’ll receive one confirmation message and no further texts.</li>
+    <li><strong>For help</strong>, reply HELP or contact <span set:html={rich(agent.phoneDisplay)} /> / <span set:html={rich(agent.email)} />.</li>
+    <li>Carriers are not liable for delayed or undelivered messages.</li>
+  </ul>
+  <p>Mobile opt-in data and consent are never shared with third parties or affiliates for marketing purposes. See our <a href="/privacy/">Privacy Policy</a>.</p>
+</LegalPage>

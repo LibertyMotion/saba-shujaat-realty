@@ -1,0 +1,80 @@
+---
+/** Two-step buyer form: search preferences, then contact. Saba sets up an MLS saved search. */
+import LeadForm from './LeadForm.astro';
+import Field from './Field.astro';
+import ChoiceGroup from './ChoiceGroup.astro';
+import Consent from './Consent.astro';
+import Icon from '../Icon.astro';
+
+interface Props { idPrefix: string; variant?: string; successUrl?: string; class?: string; submitLabel?: string; headingLevel?: 'h2' | 'h3' }
+const { idPrefix, variant = 'site', successUrl = '/thank-you/buyer/', class: className = '', submitLabel = 'Send me new listings' } = Astro.props;
+const H = Astro.props.headingLevel ?? 'h3';
+const PHONE = '^(\\+?1[\\s.\\-]?)?\\(?\\d{3}\\)?[\\s.\\-]?\\d{3}[\\s.\\-]?\\d{4}$';
+const areas = ['Westerville', 'Powell', 'Dublin', 'Hilliard', 'Delaware', 'Sunbury', 'Gahanna', 'Lewis Center', 'Not sure yet'];
+const prices = [
+  'Under $300K', '$300K–$400K', '$400K–$500K', '$500K–$650K', '$650K–$800K', '$800K–$1M', '$1M+',
+].map((p) => ({ value: p, label: p }));
+---
+<LeadForm name="buyer-alerts" leadType="buyer" successUrl={successUrl} variant={variant} class={className}>
+  <div class="mb-5 flex items-center justify-between gap-3">
+    <p class="text-xs font-semibold uppercase tracking-[0.18em] text-gold-ink" data-step-progress aria-live="polite">Step 1 of 2</p>
+    <p class="flex items-center gap-1.5 text-xs text-muted"><Icon name="bell" size={14} /> Matches straight from the MLS</p>
+  </div>
+
+  <div data-step>
+    <H data-step-heading tabindex="-1" class="font-display text-2xl text-navy outline-none sm:text-[1.7rem]">What are you looking for?</H>
+    <div class="mt-5 grid gap-5">
+      <ChoiceGroup idPrefix={idPrefix} name="areas" legend="Areas you’re considering" multiple cols={3} options={areas.map((a) => ({ value: a, label: a }))} />
+      <div class="grid gap-4 sm:grid-cols-2">
+        <Field id={`${idPrefix}-price`} name="price_range" label="Price range" as="select" required options={prices} />
+        <Field
+          id={`${idPrefix}-beds`}
+          name="bedrooms"
+          label="Bedrooms (optional)"
+          as="select"
+          options={['2+', '3+', '4+', '5+'].map((b) => ({ value: b, label: b }))}
+        />
+      </div>
+      <ChoiceGroup
+        idPrefix={idPrefix}
+        name="timeline"
+        legend="When do you hope to move? (optional)"
+        cols={4}
+        options={[
+          { value: '0-3 months', label: '0–3 mo' },
+          { value: '3-6 months', label: '3–6 mo' },
+          { value: '6-12 months', label: '6–12 mo' },
+          { value: 'just browsing', label: 'Browsing' },
+        ]}
+      />
+    </div>
+    <button type="button" data-next class="btn btn-primary mt-6 w-full">Continue <Icon name="arrowRight" size={18} /></button>
+  </div>
+
+  <div data-step hidden>
+    <H data-step-heading tabindex="-1" class="font-display text-2xl text-navy outline-none sm:text-[1.7rem]">Where should new listings go?</H>
+    <div class="mt-5 grid gap-4 sm:grid-cols-2">
+      <Field id={`${idPrefix}-name`} name="name" label="Full name" required autocomplete="name" class="sm:col-span-2" minlength={2} />
+      <Field id={`${idPrefix}-email`} name="email" type="email" label="Email" required autocomplete="email" inputmode="email" />
+      <Field id={`${idPrefix}-phone`} name="phone" type="tel" label="Phone (optional)" autocomplete="tel" inputmode="tel" pattern={PHONE} />
+      <div class="sm:col-span-2">
+        <ChoiceGroup
+          idPrefix={idPrefix}
+          name="preapproved"
+          legend="Pre-approved for a mortgage? (optional)"
+          cols={3}
+          options={[
+            { value: 'yes', label: 'Yes' },
+            { value: 'in progress', label: 'In progress' },
+            { value: 'not yet', label: 'Not yet' },
+          ]}
+        />
+      </div>
+      <div class="sm:col-span-2"><Consent idPrefix={idPrefix} /></div>
+    </div>
+    <div class="mt-5 flex flex-col-reverse gap-3 sm:flex-row">
+      <button type="button" data-back class="btn btn-outline"><Icon name="arrowLeft" size={18} /> Back</button>
+      <button type="submit" class="btn btn-primary flex-1">{submitLabel}</button>
+    </div>
+  </div>
+</LeadForm>

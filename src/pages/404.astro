@@ -1,0 +1,18 @@
+---
+import Base from '../layouts/Base.astro';
+---
+<Base title="Page not found" noindex>
+  <section class="py-24 sm:py-32">
+    <div class="container-x max-w-2xl text-center">
+      <p class="eyebrow justify-center">404</p>
+      <h1 class="mt-5 text-[clamp(2.5rem,5vw,4rem)] text-navy">This address isn’t on the market.</h1>
+      <p class="mt-5 text-lg text-muted">The page you’re looking for may have moved. Try one of these instead:</p>
+      <div class="mt-9 flex flex-wrap justify-center gap-3">
+        <a href="/" class="btn btn-primary">Home</a>
+        <a href="/home-value/" class="btn btn-outline">Home value</a>
+        <a href="/buy/" class="btn btn-outline">Buy</a>
+        <a href="/contact/" class="btn btn-outline">Contact</a>
+      </div>
+    </div>
+  </section>
+</Base>

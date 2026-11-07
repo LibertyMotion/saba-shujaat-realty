@@ -1,0 +1,11 @@
+---
+import LegalPage from '../components/LegalPage.astro';
+import { agent } from '../config/site';
+import { rich } from '../lib/text';
+---
+<LegalPage title="Accessibility" description="Our commitment to an accessible website." updated="November 2026" template={false}>
+  <p>{agent.name} is committed to making this website accessible to everyone, including people with disabilities. We aim to meet the Web Content Accessibility Guidelines (WCAG) 2.1 Level AA.</p>
+  <p>This site is built with semantic HTML, keyboard navigation, visible focus indicators, sufficient color contrast, labeled form fields with clear error messages, text alternatives for images and support for reduced-motion preferences.</p>
+  <h2>Need help or found a barrier?</h2>
+  <p>If any part of this site is difficult to use, please call <span set:html={rich(agent.phoneDisplay)} /> or email <span set:html={rich(agent.email)} />. We’ll provide the information you need in another way and work to fix the issue.</p>
+</LegalPage>

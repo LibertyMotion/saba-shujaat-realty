@@ -1,0 +1,119 @@
+---
+import Base from '../layouts/Base.astro';
+import Portrait from '../components/Portrait.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import Testimonials from '../components/Testimonials.astro';
+import CTABand from '../components/CTABand.astro';
+import Icon from '../components/Icon.astro';
+import { agent, brokerage } from '../config/site';
+import { rich } from '../lib/text';
+
+// Saba's own story, lightly edited for the web. Saba should approve the final wording.
+const story = [
+  'Growing up thousands of miles from the US, I never thought I’d one day become a real estate agent in Columbus, Ohio.',
+  'I moved to the US in 1999 with my husband. After a few years as a stay-at-home mom to my two sons, I shifted to a career in real estate — it gave me the flexibility to raise my boys while staying connected to the new culture I was raising them in.',
+  `My bachelor’s degree in arts from Pakistan, my interest in different styles of homes and my friendly nature all helped me start my new career. For the past ${agent.yearsExperience} years, I’ve proudly served both buyers and sellers, and I maintain strong relationships with my past clients.`,
+  `My philosophy is to give my clients both enough time and enough education on the buying and selling process to make the best decision for their new beginnings. As a Powell resident for ${agent.yearsInPowell} years, I know Central Ohio’s communities well — and speaking Urdu and Hindi helps me work effectively with clients who are more comfortable in a language other than English.`,
+  'Outside of real estate, you’ll find me behind a camera, out walking or running, cooking, enjoying music or learning something new. I’m also proud to support Children’s Miracle Network, volunteer at school and with the YMCA/YWCA.',
+];
+const values = [
+  { icon: 'message', title: 'Open, honest communication', body: 'Consistent updates and straight answers — so you always know where things stand.' },
+  { icon: 'shield', title: 'Integrity & professionalism', body: 'Careful attention to every contract, deadline and detail, with your interests first.' },
+  { icon: 'compass', title: 'Unbiased & flexible', body: 'No pressure and no one-size-fits-all plan — we move at your pace until we decide together.' },
+] as const;
+---
+<Base title={`About ${agent.name}`} description={`Meet ${agent.name}, a Westerville-based ${agent.title} with ${brokerage.name.replace(/⁣|\[|\]/g, '')}, helping Central Ohio buyers and sellers move with confidence.`}>
+  <section class="relative overflow-hidden">
+    <div aria-hidden="true" class="pointer-events-none absolute inset-y-0 left-0 hidden w-[38%] bg-ivory-deep lg:block"></div>
+    <div class="container-x relative grid items-center gap-14 py-14 sm:py-20 lg:grid-cols-[0.85fr_1.15fr] lg:gap-20">
+      <Portrait priority class="mx-auto max-w-[22rem]" />
+      <div>
+        <nav aria-label="Breadcrumb" class="mb-6 text-sm text-muted"><a href="/" class="hover:text-navy">Home</a> <span class="text-gold">/</span> <span aria-current="page" class="text-navy">About</span></nav>
+        <p class="eyebrow">About {agent.firstName}</p>
+        <h1 class="mt-4 text-[clamp(2.6rem,5.5vw,4.4rem)] text-navy">Hi, I’m {agent.firstName}.</h1>
+        <p class="mt-6 text-xl leading-relaxed text-muted" set:html={rich(agent.shortBio)} />
+        <div class="mt-8 flex flex-wrap gap-x-8 gap-y-3 text-sm">
+          <p class="flex items-center gap-2"><Icon name="shield" size={18} class="text-gold" /> {agent.title} · Ohio {agent.licenseNumber}</p>
+          <p class="flex items-center gap-2"><Icon name="home" size={18} class="text-gold" /> <span set:html={rich(brokerage.name)} /></p>
+          {agent.languages.length > 0 && <p class="flex items-center gap-2"><Icon name="globe" size={18} class="text-gold" /> {agent.languages.join(' · ')}</p>}
+        </div>
+        <div class="mt-9 flex flex-wrap gap-3">
+          <a href="/contact/" class="btn btn-primary">Work with {agent.firstName}</a>
+          <a href={`tel:${agent.phoneE164}`} data-track-location="about_hero" class="btn btn-outline"><Icon name="phone" size={18} /> Call or text</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-20 sm:py-28">
+    <div class="container-x grid gap-14 lg:grid-cols-[0.7fr_1.3fr]">
+      <div>
+        <p class="eyebrow">My story</p>
+        <h2 class="mt-4 text-[clamp(2.1rem,4vw,3rem)] text-navy">From Pakistan to Powell.</h2>
+        <!-- VIDEO SLOT: a 60–90 second intro video builds trust fast. Replace with a YouTube/Vimeo embed. -->
+        <div class="mt-8 flex aspect-video items-center justify-center rounded-[var(--radius-card)] border border-dashed border-gold/60 bg-ivory-deep/60 text-center">
+          <span class="flex flex-col items-center gap-3 px-6 text-sm text-muted"><span class="flex h-14 w-14 items-center justify-center rounded-full bg-navy text-gold-light"><Icon name="play" size={22} /></span><span class="todo">[Optional: 60–90 sec intro video]</span></span>
+        </div>
+      </div>
+      <div class="prose-brand">
+        {story.map((p) => <p set:html={rich(p)} />)}
+      </div>
+    </div>
+  </section>
+
+  <section class="pb-20 sm:pb-28">
+    <div class="container-x grid gap-6 md:grid-cols-3">
+      <div class="card p-7 sm:p-8">
+        <h2 class="text-2xl text-navy">Designations</h2>
+        <ul class="mt-5 space-y-4">
+          {agent.designations.map((d) => (
+            <li class="flex items-start gap-4">
+              <span class="inline-flex min-w-16 justify-center rounded-full bg-navy px-3 py-1.5 text-xs font-bold tracking-wider text-gold-light">{d.code}</span>
+              <span class="pt-1 text-sm text-muted" set:html={rich(d.name)} />
+            </li>
+          ))}
+        </ul>
+      </div>
+      <div class="card p-7 sm:p-8">
+        <h2 class="text-2xl text-navy">Specialties</h2>
+        <ul class="mt-5 space-y-3">
+          {agent.specialties.map((x) => <li class="flex gap-3"><Icon name="check" size={20} class="mt-0.5 text-gold" strokeWidth={2.25} /><span>{x}</span></li>)}
+        </ul>
+        <h3 class="mt-7 text-xl text-navy">Languages</h3>
+        <p class="mt-2 text-muted">{agent.languages.join(' · ')}</p>
+      </div>
+      <div class="card p-7 sm:p-8">
+        <h2 class="text-2xl text-navy">In the community</h2>
+        <ul class="mt-5 space-y-3">
+          {agent.civic.map((x) => <li class="flex gap-3"><Icon name="check" size={20} class="mt-0.5 text-gold" strokeWidth={2.25} /><span>{x}</span></li>)}
+        </ul>
+        <h3 class="mt-7 text-xl text-navy">Experience</h3>
+        <p class="mt-2 text-muted">{agent.yearsExperience} years in real estate · {agent.yearsInPowell} years in Powell</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="border-y border-line bg-white/60 py-20 sm:py-24">
+    <div class="container-x">
+      <SectionHeading eyebrow="What you can expect" title="How I work with every client." align="center" />
+      <ul class="mt-14 grid gap-6 md:grid-cols-3">
+        {values.map((v) => (
+          <li class="card p-8 text-center" data-reveal>
+            <span class="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-ivory-deep text-gold-ink"><Icon name={v.icon} size={24} /></span>
+            <h3 class="mt-5 text-2xl text-navy">{v.title}</h3>
+            <p class="mt-2 text-muted">{v.body}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="py-20 sm:py-28">
+    <div class="container-x">
+      <SectionHeading eyebrow="Client stories" title="In my clients’ words." align="center" />
+      <div class="mt-12"><Testimonials ids={['muzaffar', 'relocation', 'shukria']} /></div>
+    </div>
+  </section>
+
+  <CTABand />
+</Base>

@@ -1,0 +1,29 @@
+---
+/**
+ * Agent + brokerage lockup. Ohio law (ORC 4735.16, OAC 1301:5-1-02) requires the
+ * brokerage name on every page, at least as prominent as the licensee's name —
+ * so both names share the same typeface, size and weight here.
+ */
+import { agent, brokerage } from '../config/site';
+import { rich } from '../lib/text';
+interface Props { tone?: 'dark' | 'light'; size?: 'sm' | 'md'; href?: string | null }
+const { tone = 'dark', size = 'md', href = '/' } = Astro.props;
+const Tag = href ? 'a' : 'div';
+---
+<Tag
+  href={href ?? undefined}
+  class:list={[
+    'group inline-flex shrink-0 flex-col whitespace-nowrap leading-none sm:flex-row sm:items-center sm:gap-3',
+    tone === 'dark' ? 'text-navy' : 'text-ivory',
+  ]}
+  aria-label={href ? `${agent.name}, ${brokerage.name.replace(/⁣/g, '')} — home` : undefined}
+>
+  <span class:list={['font-display font-semibold tracking-tight', size === 'md' ? 'text-[1.4rem] sm:text-[1.55rem]' : 'text-[1.2rem]']}>
+    {agent.name}
+  </span>
+  <span aria-hidden="true" class:list={['hidden h-6 w-px sm:block', tone === 'dark' ? 'bg-gold/60' : 'bg-gold-light/60']}></span>
+  <span
+    class:list={['mt-1 font-display font-semibold tracking-tight sm:mt-0', size === 'md' ? 'text-[1.4rem] sm:text-[1.55rem]' : 'text-[1.2rem]']}
+    set:html={rich(brokerage.name)}
+  />
+</Tag>

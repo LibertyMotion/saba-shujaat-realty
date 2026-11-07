@@ -1,0 +1,14 @@
+---
+/** Sticky bottom action bar on small screens: Call · Text · Home value (or a custom primary). */
+import { agent } from '../config/site';
+import Icon from './Icon.astro';
+interface Props { primaryHref?: string; primaryLabel?: string }
+const { primaryHref = '/home-value/', primaryLabel = 'Home value' } = Astro.props;
+---
+<div class="fixed inset-x-0 bottom-0 z-40 border-t border-line bg-ivory/95 pb-[env(safe-area-inset-bottom)] backdrop-blur-md md:hidden">
+  <div class="grid grid-cols-[1fr_1fr_1.4fr] gap-2 px-3 py-2.5">
+    <a href={`tel:${agent.phoneE164}`} data-track-location="mobile_bar" class="btn btn-outline !min-h-12 !px-2 text-sm"><Icon name="phone" size={18} /> Call</a>
+    <a href={`sms:${agent.smsE164}`} data-track-location="mobile_bar" class="btn btn-outline !min-h-12 !px-2 text-sm"><Icon name="message" size={18} /> Text</a>
+    <a href={primaryHref} class="btn btn-primary !min-h-12 !px-2 text-sm"><Icon name="home" size={18} /> {primaryLabel}</a>
+  </div>
+</div>

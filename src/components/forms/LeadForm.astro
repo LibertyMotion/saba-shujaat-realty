@@ -1,0 +1,49 @@
+---
+/**
+ * Lead form shell. Works with Netlify Forms out of the box (static HTML
+ * detection + AJAX submit), or posts to PUBLIC_FORM_ENDPOINT (Formspree,
+ * a CRM webhook, Zapier/Make, etc.) when that env var is set.
+ * All hidden attribution fields must exist in the HTML so Netlify records them.
+ */
+import { agent, site, tracking } from '../../config/site';
+import { plain } from '../../lib/text';
+
+interface Props {
+  name: string; // Netlify form name — keep stable, it becomes the form in the dashboard
+  leadType: 'home-value' | 'buyer' | 'guide' | 'contact' | 'market-report';
+  successUrl: string;
+  class?: string;
+  variant?: string; // e.g. 'lp-meta' to tell ad landing pages apart
+}
+const { name, leadType, successUrl, class: className = '', variant = 'site' } = Astro.props;
+const hidden = [
+  'utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content',
+  'gclid', 'gbraid', 'wbraid', 'fbclid', 'msclkid', 'first_touch', 'landing_page', 'referrer',
+  'page_url', 'fbp', 'fbc', 'event_id', 'consent_timestamp',
+];
+const errorHtml = `Sorry — your request didn’t go through. Please try again, or call/text ${agent.firstName} at <a class="link-underline" href="tel:${agent.phoneE164}">${plain(agent.phoneDisplay)}</a>.`;
+---
+<form
+  name={name}
+  method="POST"
+  action={successUrl}
+  data-netlify="true"
+  netlify-honeypot="bot-field"
+  data-lead-form
+  data-lead-type={leadType}
+  data-success-url={successUrl}
+  data-endpoint={tracking.formEndpoint || undefined}
+  data-error-html={errorHtml}
+  class={className}
+>
+  <input type="hidden" name="form-name" value={name} />
+  <input type="hidden" name="lead_type" value={leadType} />
+  <input type="hidden" name="form_variant" value={variant} />
+  <input type="hidden" name="consent_version" value={site.consentVersion} />
+  {hidden.map((h) => <input type="hidden" name={h} value="" />)}
+  <p class="hidden" aria-hidden="true">
+    <label>Leave this field empty <input name="bot-field" tabindex="-1" autocomplete="off" /></label>
+  </p>
+  <slot />
+  <p data-form-status role="alert" tabindex="-1" hidden class="mt-4 rounded-xl border border-danger/30 bg-danger/5 p-3 text-sm text-danger"></p>
+</form>

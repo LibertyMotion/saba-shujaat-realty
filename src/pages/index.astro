@@ -1,0 +1,240 @@
+---
+import Base from '../layouts/Base.astro';
+import Portrait from '../components/Portrait.astro';
+import StatsBar from '../components/StatsBar.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import Testimonials from '../components/Testimonials.astro';
+import CommunityCard from '../components/CommunityCard.astro';
+import FAQ from '../components/FAQ.astro';
+import CTABand from '../components/CTABand.astro';
+import Icon from '../components/Icon.astro';
+import HomeValueForm from '../components/forms/HomeValueForm.astro';
+import { Image } from 'astro:assets';
+import { agent, brokerage, promises, stats } from '../config/site';
+import { communities } from '../data/communities';
+import { rich } from '../lib/text';
+import { homeFaqs } from '../data/faqs';
+
+const services = [
+  { icon: 'home', title: 'Sell your home', body: 'Preparation advice, a marketing plan and pricing grounded in real neighborhood data — plus a coordinated plan if you’re selling and buying.', href: '/sell/', cta: 'Selling with Saba' },
+  { icon: 'key', title: 'First-time buyers', body: 'Patient, step-by-step guidance with enough time and education to buy your first home with confidence.', href: '/buy/', cta: 'Start your search' },
+  { icon: 'hammer', title: 'New construction', body: 'Certified in new-home sales. Saba knows Central Ohio’s builders, communities and contracts — and represents you, not the builder.', href: '/buy/#new-construction', cta: 'Building new' },
+  { icon: 'trending', title: 'Investment property', body: 'Rental and investment purchases evaluated with clear numbers, local market knowledge and strong negotiation.', href: '/buy/#investment', cta: 'Invest locally' },
+] as const;
+
+const steps = [
+  { title: 'A real conversation', body: 'We start with your goals, timeline and questions — no pressure, no scripts.' },
+  { title: 'A clear plan', body: 'You get pricing or search strategy built on current local data, plus a timeline you can count on.' },
+  { title: 'Expert execution', body: 'From preparation and marketing to showings and offers, every step is handled with care.' },
+  { title: 'Confident closing', body: 'Skilled negotiation and steady communication through inspection, appraisal and closing day.' },
+];
+const reviewStat = stats.find((s) => s.label.toLowerCase().includes('review'));
+---
+<Base schema={[]}>
+  <!-- HERO -->
+  <section class="relative overflow-hidden">
+    <div aria-hidden="true" class="pointer-events-none absolute inset-y-0 right-0 hidden w-[42%] bg-ivory-deep lg:block"></div>
+    <div aria-hidden="true" class="pointer-events-none absolute right-[8%] top-16 hidden h-[34rem] w-[34rem] rounded-full border border-gold/25 lg:block"></div>
+    <div class="container-x relative grid items-center gap-12 pb-16 pt-10 sm:pt-16 lg:grid-cols-[1.15fr_0.85fr] lg:gap-16 lg:pb-24">
+      <div>
+        <p class="eyebrow">Westerville &amp; Central Ohio Real Estate</p>
+        <h1 class="mt-5 text-[clamp(2.75rem,6.6vw,5.4rem)] text-navy">
+          Your next move, <em class="font-medium text-gold-ink">guided with care.</em>
+        </h1>
+        <p class="mt-6 max-w-xl text-lg leading-relaxed text-muted sm:text-xl">
+          Selling the home you love, buying your first or building new — {agent.name} brings {agent.yearsExperience} years of Central Ohio experience, honest advice and a clear plan, in English, Urdu or Hindi.
+        </p>
+
+        <form action="/home-value/" method="get" class="mt-9 max-w-xl rounded-[1.5rem] border border-line bg-white p-2 shadow-[var(--shadow-soft)] sm:rounded-full">
+          <label for="hero-address" class="sr-only">Your home address</label>
+          <div class="flex flex-col gap-2 sm:flex-row sm:items-center">
+            <div class="flex flex-1 items-center gap-3 px-4">
+              <Icon name="pin" size={20} class="text-gold" />
+              <input id="hero-address" name="address" required autocomplete="street-address" placeholder="Enter your home address" class="min-h-12 w-full bg-transparent text-base text-ink placeholder:text-[#8b8f97] focus:outline-none" />
+            </div>
+            <button type="submit" class="btn btn-primary whitespace-nowrap">Get my home value</button>
+          </div>
+        </form>
+        <p class="mt-4 text-sm text-muted">
+          Buying instead? <a href="/buy/#alerts" class="link-underline font-semibold text-navy">Get new listings that match your search</a>
+        </p>
+
+        <div class="mt-10 flex flex-wrap items-center gap-x-8 gap-y-4 border-t border-line pt-6">
+          {reviewStat && (
+            <a href="/reviews/" class="flex items-center gap-3 hover:opacity-80">
+              <div class="flex text-gold" aria-hidden="true">{[0, 1, 2, 3, 4].map(() => <Icon name="star" size={16} class="fill-current" />)}</div>
+              <p class="text-sm text-muted"><strong class="text-navy">{reviewStat.value} five-star reviews</strong> on Zillow</p>
+            </a>
+          )}
+          <p class="flex items-center gap-2 text-sm text-muted"><Icon name="globe" size={18} class="text-gold" /> {agent.languages.join(' · ')}</p>
+          <p class="flex items-center gap-2 text-sm text-muted"><Icon name="shield" size={18} class="text-gold" /> {agent.designations.map((d) => d.code).join(' · ')}</p>
+        </div>
+      </div>
+
+      <div class="relative mx-auto w-full max-w-[25rem] lg:max-w-none">
+        <Portrait priority class="mx-auto max-w-[23rem]" />
+        <div class="absolute -bottom-6 left-1/2 w-[88%] -translate-x-1/2 rounded-2xl border border-line bg-white/95 px-5 py-4 text-center shadow-[var(--shadow-lift)] backdrop-blur">
+          <p class="font-display text-xl font-semibold text-navy">{agent.name}</p>
+          <p class="font-display text-xl font-semibold text-navy" set:html={rich(brokerage.name)} />
+          <p class="mt-1 text-xs font-semibold uppercase tracking-[0.18em] text-gold-ink">{agent.title}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <StatsBar />
+
+  <!-- SERVICES -->
+  <section class="py-20 sm:py-28">
+    <div class="container-x">
+      <SectionHeading eyebrow="How I can help" title="Every kind of move, handled personally." lead="Most of my clients are making a big life change — upsizing, right-sizing, relocating or buying for the first time. Wherever you are, you’ll get a plan built around your life, not a one-size-fits-all process." />
+      <ul class="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        {services.map((s, i) => (
+          <li data-reveal style={`transition-delay:${i * 70}ms`}>
+            <a href={s.href} class="card group flex h-full flex-col p-7 transition duration-300 hover:-translate-y-1 hover:shadow-[var(--shadow-lift)]">
+              <span class="flex h-12 w-12 items-center justify-center rounded-full bg-ivory-deep text-gold-ink transition group-hover:bg-navy group-hover:text-gold-light">
+                <Icon name={s.icon} size={22} />
+              </span>
+              <h3 class="mt-6 text-2xl text-navy">{s.title}</h3>
+              <p class="mt-3 flex-1 text-[0.95rem] leading-relaxed text-muted">{s.body}</p>
+              <span class="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-navy">{s.cta} <Icon name="arrowRight" size={16} class="text-gold transition-transform group-hover:translate-x-1" /></span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- HOME VALUE -->
+  <section id="home-value" class="on-dark relative overflow-hidden bg-navy py-20 text-ivory sm:py-28">
+    <div aria-hidden="true" class="pointer-events-none absolute -right-40 -top-40 h-[36rem] w-[36rem] rounded-full border border-gold-light/15"></div>
+    <div class="container-x relative grid items-start gap-12 lg:grid-cols-2 lg:gap-20">
+      <div data-reveal>
+        <p class="eyebrow">For homeowners</p>
+        <h2 class="mt-4 text-[clamp(2.2rem,4.5vw,3.6rem)]">A home value that sees what algorithms can’t.</h2>
+        <p class="mt-6 text-lg leading-relaxed text-ivory/75">
+          Online estimates can’t walk through your kitchen, notice your finished basement or know what buyers paid on your street last month. I can. Get a personalized market analysis, prepared by me, {promises.valuationTurnaround}.
+        </p>
+        <ul class="mt-8 space-y-4">
+          {[
+            'Recent comparable sales and active competition near you',
+            'How your updates and condition affect today’s price',
+            'A recommended list-price range and expected timeline',
+            'No cost, no obligation and no automated spam',
+          ].map((b) => (
+            <li class="flex gap-3"><span class="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-gold-light/15 text-gold-light"><Icon name="check" size={14} strokeWidth={2.5} /></span><span class="text-ivory/85">{b}</span></li>
+          ))}
+        </ul>
+      </div>
+      <div class="rounded-[1.5rem] bg-ivory p-6 text-ink shadow-[var(--shadow-lift)] sm:p-9" data-reveal>
+        <HomeValueForm idPrefix="home-hv" />
+      </div>
+    </div>
+  </section>
+
+  <!-- MEET SABA -->
+  <section class="py-20 sm:py-28">
+    <div class="container-x grid items-center gap-14 lg:grid-cols-[0.9fr_1.1fr] lg:gap-20">
+      <div class="relative mx-auto w-full max-w-sm lg:order-2" data-reveal>
+        <div class="rounded-[2rem] bg-ivory-deep p-8">
+          <p class="font-display text-[1.6rem] italic leading-snug text-navy" set:html={rich(agent.philosophy)} />
+          <div class="mt-6 flex items-center gap-3">
+            {agent.headshot && <Image src={agent.headshot} alt="" width={96} height={96} class="h-12 w-12 rounded-full object-cover ring-2 ring-gold/50" />}
+            <p class="text-sm font-semibold uppercase tracking-[0.2em] text-gold-ink">{agent.name}</p>
+          </div>
+        </div>
+        {agent.languages.length > 0 && (
+          <p class="mt-5 flex items-center gap-2 text-sm text-muted"><Icon name="globe" size={18} class="text-gold" /> Services offered in {agent.languages.join(', ')}</p>
+        )}
+      </div>
+      <div data-reveal>
+        <p class="eyebrow">Meet {agent.firstName}</p>
+        <h2 class="mt-4 text-[clamp(2.2rem,4.5vw,3.4rem)] text-navy">A neighbor first, an advisor always.</h2>
+        <p class="mt-6 text-lg leading-relaxed text-muted" set:html={rich(agent.shortBio)} />
+        <dl class="mt-8 grid gap-6 sm:grid-cols-3">
+          {[
+            { t: 'Open, honest communication', d: 'Consistent updates and straight answers at every step.' },
+            { t: 'Integrity & professionalism', d: 'Careful attention to every contract, deadline and detail.' },
+            { t: 'Unbiased & flexible', d: 'No pressure — we move at your pace until we decide together.' },
+          ].map((v) => (
+            <div class="border-l-2 border-gold pl-4">
+              <dt class="font-semibold text-navy">{v.t}</dt>
+              <dd class="mt-1 text-sm leading-relaxed text-muted">{v.d}</dd>
+            </div>
+          ))}
+        </dl>
+        <a href="/about/" class="btn btn-outline mt-10">More about {agent.firstName} <Icon name="arrowRight" size={18} /></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROCESS -->
+  <section class="border-y border-line bg-white/60 py-20 sm:py-24">
+    <div class="container-x">
+      <SectionHeading eyebrow="The experience" title="A clear plan, start to finish." align="center" />
+      <ol class="mt-14 grid gap-8 md:grid-cols-4">
+        {steps.map((s, i) => (
+          <li class="relative" data-reveal style={`transition-delay:${i * 80}ms`}>
+            <span class="font-display text-6xl leading-none text-[#a07c47]">0{i + 1}</span>
+            <h3 class="mt-3 text-2xl text-navy">{s.title}</h3>
+            <p class="mt-2 text-[0.95rem] leading-relaxed text-muted">{s.body}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <!-- REVIEWS -->
+  <section class="py-20 sm:py-28">
+    <div class="container-x">
+      <SectionHeading eyebrow="Client stories" title="In my clients’ words." align="center" />
+      <div class="mt-14"><Testimonials ids={['shukria', 'muzaffar', 'waqas']} /></div>
+    </div>
+  </section>
+
+  <!-- COMMUNITIES -->
+  <section class="bg-ivory-deep/60 py-20 sm:py-28">
+    <div class="container-x">
+      <div class="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+        <SectionHeading eyebrow="Communities" title="Know the neighborhood before you move." lead="Westerville is home base — and I help clients across the northeast Columbus suburbs and southern Delaware County." />
+        <a href="/communities/" class="btn btn-outline shrink-0">All communities <Icon name="arrowRight" size={18} /></a>
+      </div>
+      <div class="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        {communities.slice(0, 6).map((c, i) => <CommunityCard community={c} index={i} />)}
+      </div>
+    </div>
+  </section>
+
+  <!-- RESOURCES -->
+  <section class="py-20 sm:py-28">
+    <div class="container-x">
+      <SectionHeading eyebrow="Free resources" title="Make your next decision with confidence." align="center" />
+      <ul class="mt-14 grid gap-6 md:grid-cols-3">
+        {[
+          { icon: 'file', title: 'The Seller’s Playbook', body: 'How to prep, price and time your sale in today’s Central Ohio market.', href: '/guides/#seller-guide' },
+          { icon: 'key', title: 'The Buyer’s Guide', body: 'Pre-approval, buyer agreements, offers and inspections — explained in plain English.', href: '/guides/#buyer-guide' },
+          { icon: 'trending', title: 'Monthly Market Update', body: 'Prices, inventory and days on market for Westerville and nearby communities.', href: '/guides/#market-update' },
+        ].map((r, i) => (
+          <li data-reveal style={`transition-delay:${i * 70}ms`}>
+            <a href={r.href} class="card group flex h-full flex-col p-8 transition hover:-translate-y-1 hover:shadow-[var(--shadow-lift)]">
+              <Icon name={r.icon as 'file'} size={28} class="text-gold" />
+              <h3 class="mt-5 text-2xl text-navy">{r.title}</h3>
+              <p class="mt-2 flex-1 text-[0.95rem] text-muted">{r.body}</p>
+              <span class="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-navy">Get it free <Icon name="arrowRight" size={16} class="text-gold transition-transform group-hover:translate-x-1" /></span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="pb-20 sm:pb-28">
+    <div class="container-x grid gap-12 lg:grid-cols-[0.8fr_1.2fr]">
+      <SectionHeading eyebrow="Good questions" title="Answers before you ask." lead={`Don’t see yours? Call or text ${agent.firstName} — there’s no such thing as a silly real estate question.`} />
+      <FAQ items={homeFaqs} />
+    </div>
+  </section>
+
+  <CTABand />
+</Base>

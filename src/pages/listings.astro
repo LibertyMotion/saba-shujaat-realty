@@ -1,0 +1,53 @@
+---
+/**
+ * IDX-ready listings page. No IDX vendor at launch: links to Saba's listings on
+ * RE/MAX and Zillow and captures buyers with listing alerts. When an IDX vendor
+ * is added, paste its search/featured-listings embed into the marked slot.
+ * IDX displays must follow Columbus MLS IDX rules (brokerage attribution etc.).
+ */
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import Icon from '../components/Icon.astro';
+import BuyerForm from '../components/forms/BuyerForm.astro';
+import { agent } from '../config/site';
+---
+<Base title="Current Listings" description={`See ${agent.name}'s current listings and get new Westerville-area homes sent to you as soon as they hit the MLS.`} mobileCta={{ primaryHref: '#alerts', primaryLabel: 'Get listings' }}>
+  <PageHero eyebrow="Listings" title="Homes for sale." lead={`Browse ${agent.firstName}’s active listings, or get every new home that matches your search sent straight from the MLS.`} crumbs={[{ label: 'Listings' }]} />
+
+  <section class="py-16 sm:py-20">
+    <div class="container-x grid gap-6 md:grid-cols-2">
+      <a href={agent.social.remax} target="_blank" rel="noopener" class="card group flex items-center justify-between gap-6 p-8 transition hover:-translate-y-1 hover:shadow-[var(--shadow-lift)]">
+        <div>
+          <p class="eyebrow">Active listings</p>
+          <h2 class="mt-3 text-3xl text-navy">See {agent.firstName}’s listings on RE/MAX</h2>
+        </div>
+        <Icon name="external" size={24} class="text-gold transition group-hover:translate-x-1" />
+      </a>
+      <a href={agent.social.zillow} target="_blank" rel="noopener" class="card group flex items-center justify-between gap-6 p-8 transition hover:-translate-y-1 hover:shadow-[var(--shadow-lift)]">
+        <div>
+          <p class="eyebrow">Sold &amp; reviews</p>
+          <h2 class="mt-3 text-3xl text-navy">See recent sales on Zillow</h2>
+        </div>
+        <Icon name="external" size={24} class="text-gold transition group-hover:translate-x-1" />
+      </a>
+    </div>
+
+    <!-- IDX SLOT: replace this block with your IDX vendor's search / featured listings embed. -->
+    <div class="container-x mt-10">
+      <div class="rounded-[var(--radius-card)] border border-dashed border-gold/60 bg-ivory-deep/50 p-8 text-center text-sm text-muted">
+        <span class="todo">[Optional: live MLS home search (IDX) can be embedded here later]</span>
+      </div>
+    </div>
+  </section>
+
+  <section id="alerts" class="scroll-mt-24 border-t border-line bg-white/60 py-20 sm:py-24">
+    <div class="container-x grid items-start gap-12 lg:grid-cols-2 lg:gap-20">
+      <div>
+        <p class="eyebrow">Never miss a new listing</p>
+        <h2 class="mt-4 text-[clamp(2.1rem,4.2vw,3.2rem)] text-navy">Get matching homes sent to you.</h2>
+        <p class="mt-6 text-lg text-muted">A custom MLS search set up personally by {agent.firstName} — new matches arrive by email as soon as they’re listed.</p>
+      </div>
+      <div class="card p-6 sm:p-9"><BuyerForm idPrefix="listings" /></div>
+    </div>
+  </section>
+</Base>

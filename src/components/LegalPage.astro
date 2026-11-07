@@ -1,0 +1,21 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from './PageHero.astro';
+interface Props { title: string; description: string; updated: string; template?: boolean }
+const { title, description, updated, template = true } = Astro.props;
+---
+<Base title={title} description={description}>
+  <PageHero title={title} crumbs={[{ label: title }]}>
+    <p class="mt-4 text-sm text-muted">Last updated {updated}</p>
+  </PageHero>
+  <section class="py-14 sm:py-20">
+    <div class="container-x max-w-3xl">
+      {template && (
+        <p class="mb-10 rounded-xl border border-dashed border-gold/60 bg-ivory-deep/60 p-4 text-sm text-muted">
+          <span class="todo">[Template — have the broker and/or an attorney review this page before launch.]</span>
+        </p>
+      )}
+      <div class="prose-brand"><slot /></div>
+    </div>
+  </section>
+</Base>

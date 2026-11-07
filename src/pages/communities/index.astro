@@ -1,0 +1,17 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import CommunityCard from '../../components/CommunityCard.astro';
+import CTABand from '../../components/CTABand.astro';
+import { agent } from '../../config/site';
+import { communities } from '../../data/communities';
+---
+<Base title="Westerville & Central Ohio Communities" description={`Explore Westerville, Lewis Center, Powell, New Albany, Gahanna, Worthington and more with local insight from ${agent.name}.`}>
+  <PageHero eyebrow="Communities" title="Explore Central Ohio, neighborhood by neighborhood." lead="Westerville is home base. From historic village centers to brand-new subdivisions, here’s a local’s guide to the communities around it." crumbs={[{ label: 'Communities' }]} />
+  <section class="py-16 sm:py-24">
+    <div class="container-x grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+      {communities.map((c, i) => <CommunityCard community={c} index={i} headingLevel="h2" />)}
+    </div>
+  </section>
+  <CTABand title="Not sure which area fits?" lead={`Tell ${agent.firstName} what matters most — commute, home style, budget, amenities — and get a shortlist of communities to explore.`} />
+</Base>

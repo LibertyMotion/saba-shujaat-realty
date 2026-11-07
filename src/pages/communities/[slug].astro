@@ -1,0 +1,102 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import CommunityCard from '../../components/CommunityCard.astro';
+import Icon from '../../components/Icon.astro';
+import BuyerForm from '../../components/forms/BuyerForm.astro';
+import { agent, promises } from '../../config/site';
+import { communities, communityBySlug, type Community } from '../../data/communities';
+
+export function getStaticPaths() {
+  return communities.map((c) => ({ params: { slug: c.slug }, props: { community: c } }));
+}
+const { community: c } = Astro.props as { community: Community };
+const nearby = c.nearby.map(communityBySlug).filter(Boolean) as Community[];
+const origin = new URL('/', Astro.site).href;
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: origin },
+    { '@type': 'ListItem', position: 2, name: 'Communities', item: new URL('/communities/', origin).href },
+    { '@type': 'ListItem', position: 3, name: c.name, item: new URL(`/communities/${c.slug}/`, origin).href },
+  ],
+};
+---
+<Base
+  title={`${c.name}, OH Homes & Real Estate Guide`}
+  description={`Thinking about ${c.name}, Ohio? Local guide to neighborhoods, homes, schools and commute — plus new ${c.name} listings and home values from ${agent.name}.`}
+  schema={[breadcrumbSchema]}
+  mobileCta={{ primaryHref: '#alerts', primaryLabel: 'Get listings' }}
+>
+  <PageHero eyebrow={c.county} title={`Living in ${c.name}, Ohio`} lead={c.intro} crumbs={[{ label: 'Communities', href: '/communities/' }, { label: c.name }]}>
+    <div class="mt-8 flex flex-wrap gap-3">
+      <a href="#alerts" class="btn btn-primary"><Icon name="bell" size={18} /> New {c.name} listings</a>
+      <a href={`/home-value/`} class="btn btn-outline">What’s my {c.name} home worth?</a>
+    </div>
+  </PageHero>
+
+  <section class="py-16 sm:py-24">
+    <div class="container-x grid gap-14 lg:grid-cols-[1.25fr_0.75fr]">
+      <div class="prose-brand">
+        <h2>What stands out</h2>
+        <ul>{c.highlights.map((h) => <li>{h}</li>)}</ul>
+
+        <h2>Homes in {c.name}</h2>
+        <p>{c.homes}</p>
+        <p class="!text-base text-muted">Want current numbers? Request a free market snapshot and {agent.firstName} will send recent sales, active inventory and days on market for {c.name} {promises.valuationTurnaround}.</p>
+
+        <h2>Schools</h2>
+        <p>{c.schools.note}</p>
+        <ul>
+          {c.schools.links.map((l) => <li><a href={l.href} target="_blank" rel="noopener">{l.label}</a></li>)}
+        </ul>
+
+        <h2>Getting around</h2>
+        <p>{c.commute}</p>
+
+        <!-- LOCAL INSIGHT: add Saba's first-hand favorites (coffee shops, parks, events, streets buyers love). Unique local detail helps these pages rank. -->
+        <h2>{agent.firstName}’s local take</h2>
+        {c.localTake ? <p>{c.localTake}</p> : <p><span class="todo">[Add 2–3 sentences of {agent.firstName}’s personal insight on {c.name} — favorite spots, what buyers often love, what to know before buying here.]</span></p>}
+      </div>
+
+      <aside class="space-y-6">
+        <div class="card p-7">
+          <h2 class="text-2xl text-navy">Selling in {c.name}?</h2>
+          <p class="mt-2 text-sm text-muted">Get a personalized home value based on real {c.name} sales.</p>
+          <form action="/home-value/" method="get" class="mt-5 space-y-3">
+            <label for={`addr-${c.slug}`} class="sr-only">Your address</label>
+            <input id={`addr-${c.slug}`} name="address" required autocomplete="street-address" placeholder="Your home address" class="field" />
+            <button class="btn btn-primary w-full">Get my home value</button>
+          </form>
+        </div>
+        <div class="rounded-[var(--radius-card)] bg-ivory-deep p-7 text-sm leading-relaxed text-muted">
+          <p class="font-semibold text-navy">A note on boundaries</p>
+          <p class="mt-2">City limits, mailing addresses and school districts don’t always line up in Central Ohio. Always verify by exact address with the county auditor and school district.</p>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <section id="alerts" class="scroll-mt-24 border-y border-line bg-white/60 py-16 sm:py-24">
+    <div class="container-x grid items-start gap-12 lg:grid-cols-2 lg:gap-20">
+      <div>
+        <p class="eyebrow">{c.name} listing alerts</p>
+        <h2 class="mt-4 text-[clamp(2rem,4vw,3rem)] text-navy">Be first to see new homes in {c.name}.</h2>
+        <p class="mt-5 text-lg text-muted">A custom MLS search set up by {agent.firstName} — new matches arrive in your inbox as soon as they’re listed.</p>
+      </div>
+      <div class="card p-6 sm:p-9"><BuyerForm idPrefix={`c-${c.slug}`} variant={`community-${c.slug}`} /></div>
+    </div>
+  </section>
+
+  {nearby.length > 0 && (
+    <section class="py-16 sm:py-24">
+      <div class="container-x">
+        <h2 class="text-[clamp(2rem,4vw,2.75rem)] text-navy">Nearby communities</h2>
+        <div class="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          {nearby.map((n, i) => <CommunityCard community={n} index={i} />)}
+        </div>
+      </div>
+    </section>
+  )}
+</Base>

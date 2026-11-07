@@ -1,0 +1,138 @@
+@import "tailwindcss";
+
+/* ------------------------------------------------------------------
+   Saba Shujaat — "Warm modern luxury" design tokens
+   Ivory canvas, deep navy brand, muted gold accent.
+   Gold (#B08D57) is decorative / large-text only on ivory (2.9:1).
+   Use gold-ink (#7D5F33, 5.2:1+) for small gold text on light backgrounds
+   and gold-light (#D4B98A, 7.6:1) for text/buttons on navy.
+------------------------------------------------------------------- */
+@theme {
+  --color-ivory: #faf7f2;
+  --color-ivory-deep: #f3ede3;
+  --color-sand: #e9dfd0;
+  --color-line: #e4dacb;
+  --color-navy: #1b2a41;
+  --color-navy-deep: #121d2e;
+  --color-navy-soft: #2a3b56;
+  --color-gold: #b08d57;
+  --color-gold-light: #d4b98a;
+  --color-gold-ink: #7d5f33;
+  --color-ink: #1f2633;
+  --color-muted: #5b6472;
+  --color-success: #2f6b4f;
+  --color-danger: #a8322d;
+
+  --font-display: "Cormorant Garamond", "Iowan Old Style", Georgia, serif;
+  --font-sans: "Manrope Variable", "Segoe UI", system-ui, -apple-system, sans-serif;
+
+  --radius-card: 1.25rem;
+  --shadow-soft: 0 1px 2px rgb(27 42 65 / 0.05), 0 12px 32px -12px rgb(27 42 65 / 0.18);
+  --shadow-lift: 0 2px 4px rgb(27 42 65 / 0.06), 0 24px 48px -16px rgb(27 42 65 / 0.28);
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
+    scroll-padding-top: 6rem;
+  }
+  body {
+    @apply bg-ivory text-ink font-sans antialiased;
+    font-size: 1rem;
+    line-height: 1.65;
+    text-rendering: optimizeLegibility;
+  }
+  h1, h2, h3, .font-display {
+    font-family: var(--font-display);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    line-height: 1.08;
+    text-wrap: balance;
+    font-variant-numeric: lining-nums;
+  }
+  p { text-wrap: pretty; }
+  ::selection { background: var(--color-gold-light); color: var(--color-navy-deep); }
+  :focus-visible {
+    outline: 2px solid var(--color-gold);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+@layer components {
+  .container-x { @apply mx-auto w-full max-w-7xl px-5 sm:px-8; }
+
+  .eyebrow {
+    @apply inline-flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.22em] text-gold-ink;
+  }
+  .eyebrow::before {
+    content: "";
+    @apply block h-px w-8 bg-gold;
+  }
+  .on-dark .eyebrow { @apply text-gold-light; }
+
+  .btn {
+    @apply inline-flex min-h-12 cursor-pointer items-center justify-center gap-2 rounded-full px-6 py-3 text-[0.95rem] font-semibold tracking-wide transition duration-200 select-none;
+    transition-timing-function: var(--ease-out-soft);
+  }
+  .btn:active { transform: translateY(1px); }
+  .btn-primary { @apply bg-navy text-ivory shadow-[var(--shadow-soft)] hover:bg-navy-soft; }
+  .btn-gold { @apply bg-gold-light text-navy-deep hover:bg-[#e0c89f]; }
+  .btn-outline { @apply border border-navy/25 text-navy hover:border-navy hover:bg-navy/5; }
+  .btn-outline-light { @apply border border-ivory/35 text-ivory hover:border-ivory hover:bg-ivory/10; }
+  .btn[disabled], .btn[aria-disabled="true"] { @apply cursor-not-allowed opacity-60; }
+
+  .card { @apply rounded-[var(--radius-card)] border border-line bg-white shadow-[var(--shadow-soft)]; }
+
+  .link-underline {
+    @apply underline decoration-gold/60 decoration-1 underline-offset-4 transition-colors hover:decoration-gold;
+  }
+
+  /* Form controls */
+  .field-label { @apply mb-1.5 block text-sm font-semibold text-navy; }
+  .field-hint { @apply mt-1 text-xs text-muted; }
+  .field {
+    @apply block min-h-12 w-full rounded-xl border border-[#cfc3b1] bg-white px-4 py-3 text-base text-ink transition placeholder:text-[#8b8f97];
+  }
+  .field:hover { @apply border-[#b9ab95]; }
+  .field:focus { @apply border-navy outline-none ring-2 ring-gold/40; }
+  .field[aria-invalid="true"] { @apply border-danger ring-2 ring-danger/15; }
+  .field-error { @apply mt-1.5 text-sm font-medium text-danger; }
+
+  .choice {
+    @apply relative flex min-h-12 cursor-pointer items-center justify-center rounded-xl border border-[#cfc3b1] bg-white px-3 py-2.5 text-center text-sm font-semibold text-navy transition hover:border-navy;
+  }
+  .choice:has(input:checked) { @apply border-navy bg-navy text-ivory; }
+  .choice:has(input:focus-visible) { @apply ring-2 ring-gold ring-offset-2; }
+  .choice input { @apply absolute h-px w-px opacity-0; }
+
+  /* Placeholder content that must be replaced before launch */
+  .todo { @apply rounded bg-[#fff2c7] px-1 text-[#6b4e00] outline-1 outline-dashed outline-[#d8b24a]; }
+
+  .prose-brand { @apply max-w-none text-[1.05rem] leading-relaxed text-ink; }
+  .prose-brand h2 { @apply mt-12 mb-4 text-3xl text-navy sm:text-4xl; }
+  .prose-brand h3 { @apply mt-8 mb-3 text-2xl text-navy; }
+  .prose-brand p { @apply mb-4; }
+  .prose-brand ul { @apply mb-5 list-disc space-y-2 pl-6 marker:text-gold; }
+  .prose-brand a { @apply text-navy underline decoration-gold/60 underline-offset-4 hover:decoration-gold; }
+}
+
+/* Gentle reveal on scroll — only when motion is allowed and JS is on */
+@media (prefers-reduced-motion: no-preference) {
+  .js [data-reveal] {
+    opacity: 0;
+    transform: translateY(14px);
+    transition: opacity 0.7s var(--ease-out-soft), transform 0.7s var(--ease-out-soft);
+  }
+  .js [data-reveal].is-visible { opacity: 1; transform: none; }
+}

@@ -1,0 +1,35 @@
+---
+/** Email-gated guide / market report request. Short: name + email (+ optional phone). */
+import LeadForm from './LeadForm.astro';
+import Field from './Field.astro';
+import Consent from './Consent.astro';
+
+interface Props {
+  idPrefix: string;
+  guide: string; // which guide is being requested — stored with the lead
+  leadType?: 'guide' | 'market-report';
+  submitLabel?: string;
+  class?: string;
+  showPhone?: boolean;
+  successUrl?: string;
+}
+const {
+  idPrefix, guide, leadType = 'guide', submitLabel = 'Send me the guide', class: className = '', showPhone = true,
+  successUrl = leadType === 'market-report' ? '/thank-you/market-report/' : '/thank-you/guide/',
+} = Astro.props;
+const PHONE = '^(\\+?1[\\s.\\-]?)?\\(?\\d{3}\\)?[\\s.\\-]?\\d{3}[\\s.\\-]?\\d{4}$';
+---
+<LeadForm name={leadType === 'guide' ? 'guide-request' : 'market-report'} leadType={leadType} successUrl={successUrl} class={className}>
+  <input type="hidden" name="guide" value={guide} />
+  <div class="grid gap-4 sm:grid-cols-2">
+    <Field id={`${idPrefix}-name`} name="name" label="First name" required autocomplete="given-name" />
+    <Field id={`${idPrefix}-email`} name="email" type="email" label="Email" required autocomplete="email" inputmode="email" />
+    {showPhone && (
+      <>
+        <Field id={`${idPrefix}-phone`} name="phone" type="tel" label="Phone (optional)" autocomplete="tel" inputmode="tel" pattern={PHONE} class="sm:col-span-2" />
+        <div class="sm:col-span-2"><Consent idPrefix={idPrefix} /></div>
+      </>
+    )}
+  </div>
+  <button type="submit" class="btn btn-primary mt-5 w-full">{submitLabel}</button>
+</LeadForm>

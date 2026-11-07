@@ -1,0 +1,28 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import Testimonials from '../components/Testimonials.astro';
+import CTABand from '../components/CTABand.astro';
+import Icon from '../components/Icon.astro';
+import { agent } from '../config/site';
+import { testimonials } from '../data/testimonials';
+---
+<Base title="Client Reviews" description={`Read reviews from buyers and sellers who worked with ${agent.name}, Westerville real estate agent.`}>
+  <PageHero eyebrow="Reviews" title="Trusted by Central Ohio buyers & sellers." lead={`Eight five-star reviews on Zillow from buyers, sellers, investors and first-time homeowners across Central Ohio.`} crumbs={[{ label: 'Reviews' }]}>
+    <div class="mt-8 flex flex-wrap gap-3">
+      <a href={agent.social.zillow} target="_blank" rel="noopener" class="btn btn-outline">Reviews on Zillow <Icon name="external" size={16} /></a>
+      {agent.social.googleBusiness && <a href={agent.social.googleBusiness} target="_blank" rel="noopener" class="btn btn-outline">Reviews on Google <Icon name="external" size={16} /></a>}
+    </div>
+  </PageHero>
+  <section class="py-20 sm:py-24">
+    <div class="container-x"><Testimonials limit={testimonials.length} showLink={false} layout="masonry" /></div>
+  </section>
+  <section class="border-t border-line bg-white/60 py-16">
+    <div class="container-x text-center">
+      <h2 class="text-3xl text-navy">Worked with {agent.firstName}?</h2>
+      <p class="mt-3 text-muted">Your review helps other buyers and sellers find the right agent. Thank you!</p>
+      <a href={agent.social.googleBusiness || agent.social.zillow} target="_blank" rel="noopener" class="btn btn-primary mt-6">Leave a review</a>
+    </div>
+  </section>
+  <CTABand />
+</Base>

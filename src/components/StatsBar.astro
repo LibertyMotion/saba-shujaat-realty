@@ -1,0 +1,20 @@
+---
+import { brokerage, stats } from '../config/site';
+import { rich } from '../lib/text';
+interface Props { class?: string }
+const { class: className = '' } = Astro.props;
+---
+<section aria-label="At a glance" class:list={['border-y border-line bg-white/60', className]}>
+  <div class="container-x grid grid-cols-2 gap-y-8 py-10 md:grid-cols-5 md:divide-x md:divide-line">
+    <div class="col-span-2 flex flex-col justify-center md:col-span-1 md:pr-6">
+      <p class="text-xs font-semibold uppercase tracking-[0.2em] text-muted">Proudly with</p>
+      <p class="mt-1 font-display text-2xl text-navy" set:html={rich(brokerage.name)} />
+    </div>
+    {stats.map((s) => (
+      <div class="px-2 text-center md:px-6">
+        <p class="font-display text-4xl text-navy sm:text-[2.75rem]" set:html={rich(s.value)} />
+        <p class="mt-1 text-sm text-muted">{s.label}</p>
+      </div>
+    ))}
+  </div>
+</section>

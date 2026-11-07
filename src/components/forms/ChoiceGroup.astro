@@ -1,0 +1,33 @@
+---
+/** One-tap radio chips (e.g. timeline). Keyboard accessible via native radios. */
+interface Props {
+  name: string;
+  legend: string;
+  options: { value: string; label: string }[];
+  required?: boolean;
+  cols?: 2 | 3 | 4;
+  idPrefix: string;
+  multiple?: boolean;
+}
+const { name, legend, options, required = false, cols = 2, idPrefix, multiple = false } = Astro.props;
+const colClass = { 2: 'grid-cols-2', 3: 'grid-cols-2 sm:grid-cols-3', 4: 'grid-cols-2 sm:grid-cols-4' }[cols];
+---
+<fieldset>
+  <legend class="field-label">{legend}{required && <span class="text-gold-ink" aria-hidden="true"> *</span>}</legend>
+  <div class:list={['mt-1 grid gap-2', colClass]}>
+    {options.map((o, i) => (
+      <label class="choice" for={`${idPrefix}-${name}-${i}`}>
+        <input
+          type={multiple ? 'checkbox' : 'radio'}
+          id={`${idPrefix}-${name}-${i}`}
+          name={name}
+          value={o.value}
+          required={required && !multiple}
+          data-label={legend}
+        />
+        {o.label}
+      </label>
+    ))}
+  </div>
+  <p class="field-error" data-group role="alert" hidden></p>
+</fieldset>

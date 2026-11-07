@@ -1,0 +1,12 @@
+---
+import LegalPage from '../components/LegalPage.astro';
+import EqualHousing from '../components/EqualHousing.astro';
+import { agent, brokerage } from '../config/site';
+import { rich } from '../lib/text';
+---
+<LegalPage title="Fair Housing Statement" description={`${agent.name} is committed to fair housing and equal opportunity.`} updated="November 2026" template={false}>
+  <EqualHousing class="mb-6 text-navy" />
+  <p>{agent.name} and <span set:html={rich(brokerage.name)} /> are committed to the letter and spirit of the federal Fair Housing Act and Ohio fair housing law. We do not discriminate on the basis of race, color, religion, sex (including sexual orientation and gender identity), disability, familial status, national origin, ancestry or military status, and we comply with all applicable fair housing laws.</p>
+  <p>Every client receives the same high level of service. Information about communities and schools on this site is provided for general reference only; we encourage you to research areas yourself and to verify school assignments by address with the school district.</p>
+  <p>If you believe you have experienced housing discrimination, you may contact the <a href="https://www.hud.gov/program_offices/fair_housing_equal_opp/online-complaint" target="_blank" rel="noopener">U.S. Department of Housing and Urban Development</a> or the <a href="https://civ.ohio.gov/" target="_blank" rel="noopener">Ohio Civil Rights Commission</a>.</p>
+</LegalPage>

@@ -1,0 +1,48 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import Icon from '../components/Icon.astro';
+import ContactForm from '../components/forms/ContactForm.astro';
+import { agent, brokerage, promises } from '../config/site';
+import { rich } from '../lib/text';
+---
+<Base title="Contact" description={`Call, text or message ${agent.name}, Westerville real estate agent. Replies ${promises.responseTime}.`}>
+  <PageHero eyebrow="Contact" title="Let’s talk about your move." lead={`Call, text or send a message — ${agent.firstName} replies ${promises.responseTime}.`} crumbs={[{ label: 'Contact' }]} />
+  <section class="py-16 sm:py-24">
+    <div class="container-x grid items-start gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
+      <div class="space-y-4">
+        <a href={`tel:${agent.phoneE164}`} data-track-location="contact_page" class="card group flex items-center gap-5 p-6 transition hover:-translate-y-0.5 hover:shadow-[var(--shadow-lift)]">
+          <span class="flex h-12 w-12 items-center justify-center rounded-full bg-navy text-gold-light"><Icon name="phone" size={20} /></span>
+          <span><span class="block text-sm text-muted">Call</span><span class="font-semibold text-navy" set:html={rich(agent.phoneDisplay)} /></span>
+        </a>
+        <a href={`sms:${agent.smsE164}`} data-track-location="contact_page" class="card group flex items-center gap-5 p-6 transition hover:-translate-y-0.5 hover:shadow-[var(--shadow-lift)]">
+          <span class="flex h-12 w-12 items-center justify-center rounded-full bg-navy text-gold-light"><Icon name="message" size={20} /></span>
+          <span><span class="block text-sm text-muted">Text</span><span class="font-semibold text-navy">Send {agent.firstName} a text</span></span>
+        </a>
+        <a href={agent.emailHref} data-track-location="contact_page" class="card group flex items-center gap-5 p-6 transition hover:-translate-y-0.5 hover:shadow-[var(--shadow-lift)]">
+          <span class="flex h-12 w-12 items-center justify-center rounded-full bg-navy text-gold-light"><Icon name="mail" size={20} /></span>
+          <span><span class="block text-sm text-muted">Email</span><span class="font-semibold text-navy" set:html={rich(agent.email)} /></span>
+        </a>
+        {agent.bookingUrl && (
+          <a href={agent.bookingUrl} target="_blank" rel="noopener" data-track="booking" data-track-location="contact_page" class="card group flex items-center gap-5 p-6 transition hover:-translate-y-0.5 hover:shadow-[var(--shadow-lift)]">
+            <span class="flex h-12 w-12 items-center justify-center rounded-full bg-navy text-gold-light"><Icon name="calendar" size={20} /></span>
+            <span><span class="block text-sm text-muted">Schedule</span><span class="font-semibold text-navy">Book a 15-minute call</span></span>
+          </a>
+        )}
+        <div class="rounded-[var(--radius-card)] bg-ivory-deep p-6 text-sm leading-relaxed">
+          <p class="font-semibold text-navy">Office</p>
+          <p class="mt-1 text-muted">
+            <span set:html={rich(brokerage.name)} /><br />
+            <span set:html={rich(brokerage.street)} /><br />
+            {brokerage.city}, {brokerage.region} <span set:html={rich(brokerage.postalCode)} /><br />
+            <a href={`tel:${brokerage.phoneE164}`} class="link-underline" set:html={rich(brokerage.phoneDisplay)} />
+          </p>
+          <p class="mt-3 text-xs text-muted">{brokerage.disclaimer}</p>
+        </div>
+      </div>
+      <div class="card p-6 sm:p-10">
+        <ContactForm idPrefix="contact" heading="Send a message" headingLevel="h2" />
+      </div>
+    </div>
+  </section>
+</Base>

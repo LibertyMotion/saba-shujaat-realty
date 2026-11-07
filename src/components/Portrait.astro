@@ -1,0 +1,36 @@
+---
+/**
+ * Saba's headshot in an arched frame. Until a real photo is set in
+ * src/config/site.ts (agent.headshot), shows an elegant monogram placeholder.
+ */
+import { Image } from 'astro:assets';
+import { agent } from '../config/site';
+interface Props { class?: string; priority?: boolean; sizes?: string }
+const { class: className = '', priority = false, sizes = '(min-width: 1024px) 420px, 80vw' } = Astro.props;
+const initials = agent.name.split(' ').map((p) => p[0]).join('');
+// Never request widths larger than the source photo (a higher-res original will unlock bigger sizes automatically).
+const widths = agent.headshot ? [400, 600, 840].filter((w) => w <= agent.headshot!.width) : [];
+if (agent.headshot && !widths.length) widths.push(agent.headshot.width);
+---
+<div class:list={['relative aspect-[4/5] w-full', className]}>
+  <div aria-hidden="true" class="absolute -inset-3 rounded-t-[999px] rounded-b-[2rem] border border-gold/50"></div>
+  <div class="relative h-full w-full overflow-hidden rounded-t-[999px] rounded-b-[1.75rem] bg-navy shadow-[var(--shadow-lift)]">
+    {agent.headshot ? (
+      <Image
+        src={agent.headshot}
+        alt={`${agent.name}, Westerville real estate agent`}
+        widths={widths}
+        sizes={sizes}
+        loading={priority ? 'eager' : 'lazy'}
+        fetchpriority={priority ? 'high' : 'auto'}
+        class="h-full w-full object-cover object-[50%_30%]"
+      />
+    ) : (
+      <div class="flex h-full w-full flex-col items-center justify-center bg-[radial-gradient(120%_90%_at_50%_0%,#2a3b56_0%,#1b2a41_55%,#121d2e_100%)] text-center">
+        <span class="font-display text-[clamp(4.5rem,12vw,8rem)] font-medium italic leading-none text-gold-light">{initials}</span>
+        <span class="mt-4 h-px w-16 bg-gold/70"></span>
+        <span class="todo mt-4 !bg-transparent text-[0.7rem] font-semibold uppercase tracking-[0.2em] !text-gold-light !outline-gold-light/60">Headshot goes here</span>
+      </div>
+    )}
+  </div>
+</div>

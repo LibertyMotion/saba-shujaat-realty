@@ -1,0 +1,35 @@
+---
+/**
+ * Lead-magnet hub. NOTE: the guides themselves (PDFs / email sequences) still
+ * need to be created — see docs/CONTENT-CHECKLIST.md. Until then, Saba can reply
+ * personally to each request, which also starts a conversation.
+ */
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import Icon from '../components/Icon.astro';
+import GuideForm from '../components/forms/GuideForm.astro';
+import { agent } from '../config/site';
+
+const guides = [
+  { id: 'seller-guide', icon: 'file', title: 'The Seller’s Playbook', guide: "Seller's Playbook", body: 'Room-by-room prep checklist, pricing strategy, what to expect from offers to closing, and a sell-and-buy timeline.', cta: 'Send me the Seller’s Playbook' },
+  { id: 'buyer-guide', icon: 'key', title: 'The Buyer’s Guide', guide: "Buyer's Guide", body: 'Pre-approval, buyer agreements, competitive offers, inspections and closing costs — explained in plain English.', cta: 'Send me the Buyer’s Guide' },
+  { id: 'market-update', icon: 'trending', title: 'Monthly Market Update', guide: 'Monthly Market Update', body: 'Prices, inventory and days on market for Westerville and nearby communities, in a quick monthly email.', cta: 'Subscribe — it’s free', leadType: 'market-report' },
+] as const;
+---
+<Base title="Free Buyer & Seller Guides" description={`Free real estate guides for Central Ohio buyers and sellers from ${agent.name}: the Seller's Playbook, the Buyer's Guide and a monthly market update.`}>
+  <PageHero eyebrow="Free resources" title="Guides for every step of your move." lead="Practical, local and free — sent straight to your inbox." crumbs={[{ label: 'Guides' }]} />
+  <section class="py-16 sm:py-24">
+    <div class="container-x space-y-8">
+      {guides.map((g) => (
+        <article id={g.id} class="card scroll-mt-28 grid gap-8 p-7 sm:p-10 lg:grid-cols-[1fr_1.1fr] lg:gap-14">
+          <div>
+            <span class="flex h-14 w-14 items-center justify-center rounded-full bg-ivory-deep text-gold-ink"><Icon name={g.icon} size={26} /></span>
+            <h2 class="mt-5 text-[clamp(2rem,3.5vw,2.75rem)] text-navy">{g.title}</h2>
+            <p class="mt-3 text-lg text-muted">{g.body}</p>
+          </div>
+          <GuideForm idPrefix={g.id} guide={g.guide} submitLabel={g.cta} leadType={'leadType' in g ? g.leadType : 'guide'} showPhone={g.id !== 'market-update'} />
+        </article>
+      ))}
+    </div>
+  </section>
+</Base>

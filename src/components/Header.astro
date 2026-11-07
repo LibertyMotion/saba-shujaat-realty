@@ -1,0 +1,71 @@
+---
+import { agent, nav } from '../config/site';
+import { rich } from '../lib/text';
+import BrandLockup from './BrandLockup.astro';
+import Icon from './Icon.astro';
+const path = Astro.url.pathname.replace(import.meta.env.BASE_URL.replace(/\/$/, ''), '') || '/';
+const isActive = (href: string) => (href === '/' ? path === '/' : path.startsWith(href));
+const desktopNav = nav.filter((n) => n.href !== '/home-value/');
+---
+<a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[100] focus:rounded-full focus:bg-navy focus:px-5 focus:py-3 focus:text-ivory">Skip to content</a>
+<header data-site-header class="sticky top-0 z-50 border-b border-transparent bg-ivory/90 backdrop-blur-md transition-[box-shadow,border-color] duration-300 [&.is-scrolled]:border-line [&.is-scrolled]:shadow-[0_8px_24px_-18px_rgb(27_42_65/0.35)]">
+  <div class="container-x flex min-h-[4.75rem] items-center justify-between gap-6 py-3">
+    <BrandLockup />
+
+    <nav aria-label="Main" class="hidden xl:block">
+      <ul class="flex items-center gap-0.5 xl:gap-1">
+        {desktopNav.map((item) => (
+          <li>
+            <a
+              href={item.href}
+              aria-current={isActive(item.href) ? 'page' : undefined}
+              class="relative rounded-full px-3 py-2 text-[0.95rem] font-medium text-navy/80 transition hover:text-navy aria-[current=page]:text-navy after:absolute after:inset-x-3 after:-bottom-0.5 after:h-px after:origin-left after:scale-x-0 after:bg-gold after:transition-transform after:duration-300 hover:after:scale-x-100 aria-[current=page]:after:scale-x-100"
+            >
+              {item.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+
+    <div class="flex items-center gap-2">
+      <a href={`tel:${agent.phoneE164}`} data-track-location="header" class="hidden items-center gap-2 whitespace-nowrap rounded-full px-3 py-2 text-sm font-semibold text-navy hover:bg-navy/5 2xl:inline-flex">
+        <Icon name="phone" size={16} />
+        <span set:html={rich(agent.phoneDisplay)} />
+      </a>
+      <a href="/home-value/" class="btn btn-primary hidden !min-h-11 whitespace-nowrap !px-5 !py-2.5 text-sm sm:inline-flex">
+        What’s my home worth?
+      </a>
+      <button
+        type="button"
+        data-nav-toggle
+        aria-expanded="false"
+        aria-controls="mobile-nav"
+        class="inline-flex h-11 w-11 items-center justify-center rounded-full border border-navy/15 text-navy xl:hidden"
+      >
+        <span class="sr-only">Menu</span>
+        <span data-icon-open><Icon name="menu" size={22} /></span>
+        <span data-icon-close class="hidden"><Icon name="x" size={22} /></span>
+      </button>
+    </div>
+  </div>
+
+  <div id="mobile-nav" hidden class="fixed inset-x-0 top-[4.75rem] bottom-0 z-40 overflow-y-auto border-t border-line bg-ivory xl:hidden">
+    <nav aria-label="Mobile" class="container-x py-6">
+      <ul class="divide-y divide-line">
+        {nav.map((item) => (
+          <li>
+            <a href={item.href} aria-current={isActive(item.href) ? 'page' : undefined} class="flex items-center justify-between py-4 font-display text-2xl text-navy aria-[current=page]:text-gold-ink">
+              {item.label}
+              <Icon name="arrowRight" size={18} class="text-gold" />
+            </a>
+          </li>
+        ))}
+      </ul>
+      <div class="mt-8 grid gap-3">
+        <a href="/home-value/" class="btn btn-primary w-full">Get my free home value</a>
+        <a href={`tel:${agent.phoneE164}`} data-track-location="mobile_menu" class="btn btn-outline w-full"><Icon name="phone" size={18} /> Call {agent.firstName}</a>
+      </div>
+    </nav>
+  </div>
+</header>

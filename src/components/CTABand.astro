@@ -1,0 +1,35 @@
+---
+/** Closing call-to-action band (navy) with home-value address capture + contact options. */
+import { agent, promises } from '../config/site';
+import Icon from './Icon.astro';
+interface Props { title?: string; lead?: string }
+const {
+  title = 'Ready when you are.',
+  lead = `Whether you’re planning a move this season or a year from now, a 15-minute conversation with ${agent.firstName} gives you a clear, no-pressure plan.`,
+} = Astro.props;
+---
+<section class="on-dark relative overflow-hidden bg-navy text-ivory">
+  <div aria-hidden="true" class="pointer-events-none absolute -left-32 bottom-[-12rem] h-[30rem] w-[30rem] rounded-full border border-gold-light/15"></div>
+  <div class="container-x relative grid items-center gap-10 py-20 lg:grid-cols-2">
+    <div data-reveal>
+      <p class="eyebrow">Let’s talk</p>
+      <h2 class="mt-4 text-[clamp(2.2rem,4.5vw,3.5rem)]">{title}</h2>
+      <p class="mt-5 max-w-xl text-lg text-ivory/75">{lead}</p>
+      <div class="mt-8 flex flex-wrap gap-3">
+        <a href={`tel:${agent.phoneE164}`} data-track-location="cta_band" class="btn btn-gold"><Icon name="phone" size={18} /> Call {agent.firstName}</a>
+        <a href={`sms:${agent.smsE164}`} data-track-location="cta_band" class="btn btn-outline-light"><Icon name="message" size={18} /> Send a text</a>
+        {agent.bookingUrl && (
+          <a href={agent.bookingUrl} data-track="booking" data-track-location="cta_band" target="_blank" rel="noopener" class="btn btn-outline-light"><Icon name="calendar" size={18} /> Book a call</a>
+        )}
+      </div>
+    </div>
+    <form action="/home-value/" method="get" class="rounded-[var(--radius-card)] border border-ivory/15 bg-white/[0.04] p-6 sm:p-8" data-reveal>
+      <label for="cta-address" class="font-display text-2xl text-ivory">What’s your home worth today?</label>
+      <p class="mt-1 text-sm text-ivory/70">A personalized market analysis from {agent.firstName} — free, {promises.valuationTurnaround}.</p>
+      <div class="mt-5 flex flex-col gap-3 sm:flex-row">
+        <input id="cta-address" name="address" autocomplete="street-address" required placeholder="Enter your home address" class="field flex-1 !border-transparent" />
+        <button type="submit" class="btn btn-gold whitespace-nowrap">Get my value</button>
+      </div>
+    </form>
+  </div>
+</section>

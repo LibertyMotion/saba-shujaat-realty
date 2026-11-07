@@ -1,0 +1,122 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import FAQ from '../components/FAQ.astro';
+import CTABand from '../components/CTABand.astro';
+import CommunityCard from '../components/CommunityCard.astro';
+import Testimonials from '../components/Testimonials.astro';
+import Icon from '../components/Icon.astro';
+import BuyerForm from '../components/forms/BuyerForm.astro';
+import GuideForm from '../components/forms/GuideForm.astro';
+import { agent } from '../config/site';
+import { communities } from '../data/communities';
+import { buyerFaqs } from '../data/faqs';
+
+const steps = [
+  { title: 'Strategy session', body: 'We talk through your must-haves, budget, timing and the communities that fit — and review your buyer agreement together.' },
+  { title: 'Pre-approval', body: 'Connect with a trusted local lender so you know your numbers and can move quickly.' },
+  { title: 'Search & tour', body: 'Custom MLS alerts the moment matching homes hit the market, plus honest feedback at every showing.' },
+  { title: 'Offer & negotiation', body: 'A competitive offer strategy backed by data, and skilled negotiation on price and terms.' },
+  { title: 'Inspection to keys', body: 'Guidance through inspection, appraisal and every closing detail until the keys are yours.' },
+];
+---
+<Base title="Buy a Home in Westerville & Central Ohio" description={`Searching for a home in Westerville, Lewis Center, New Albany or nearby? Get custom MLS listing alerts and expert buyer guidance from ${agent.name}.`} mobileCta={{ primaryHref: '#alerts', primaryLabel: 'Get listings' }}>
+  <PageHero eyebrow="Buying" title="Find the right home — not just the next one." lead={`${agent.firstName} helps buyers navigate Central Ohio’s competitive market with local insight, clear advice and strong negotiation.`} crumbs={[{ label: 'Buy' }]}>
+    <div class="mt-8 flex flex-wrap gap-3">
+      <a href="#alerts" class="btn btn-primary"><Icon name="bell" size={18} /> Get new listing alerts</a>
+      <a href="/listings/" class="btn btn-outline">See current listings</a>
+    </div>
+  </PageHero>
+
+  <section id="alerts" class="scroll-mt-24 py-20 sm:py-28">
+    <div class="container-x grid items-start gap-12 lg:grid-cols-2 lg:gap-20">
+      <div data-reveal>
+        <p class="eyebrow">Listing alerts</p>
+        <h2 class="mt-4 text-[clamp(2.1rem,4.2vw,3.2rem)] text-navy">Hear about new homes the moment they’re listed.</h2>
+        <p class="mt-6 text-lg leading-relaxed text-muted">Tell {agent.firstName} what you’re looking for, and {agent.firstName} will set up a custom search directly from the Columbus MLS — so matching homes land in your inbox as soon as they’re listed.</p>
+        <ul class="mt-8 space-y-3">
+          {['Accurate, up-to-date MLS data', 'Only homes that match your criteria', 'Adjust or pause your search anytime'].map((b) => (
+            <li class="flex gap-3"><Icon name="check" size={20} class="mt-0.5 text-gold" strokeWidth={2.25} /><span>{b}</span></li>
+          ))}
+        </ul>
+      </div>
+      <div class="card p-6 sm:p-9" data-reveal><BuyerForm idPrefix="buy" /></div>
+    </div>
+  </section>
+
+  <section class="border-y border-line bg-white/60 py-20 sm:py-24">
+    <div class="container-x">
+      <SectionHeading eyebrow="The buying process" title="Five steps to the keys." align="center" />
+      <ol class="mt-14 grid gap-8 md:grid-cols-5">
+        {steps.map((s, i) => (
+          <li data-reveal style={`transition-delay:${i * 60}ms`}>
+            <span class="font-display text-5xl leading-none text-[#a07c47]">0{i + 1}</span>
+            <h3 class="mt-3 text-xl text-navy">{s.title}</h3>
+            <p class="mt-2 text-sm leading-relaxed text-muted">{s.body}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section class="py-20 sm:py-28">
+    <div class="container-x">
+      <SectionHeading eyebrow="Specialties" title="Building new or investing? You’re in expert hands." />
+      <div class="mt-12 grid gap-6 lg:grid-cols-2">
+        <article id="new-construction" class="card scroll-mt-28 p-8 sm:p-10" data-reveal>
+          <span class="flex h-12 w-12 items-center justify-center rounded-full bg-navy text-gold-light"><Icon name="hammer" size={22} /></span>
+          <h3 class="mt-6 text-3xl text-navy">New construction</h3>
+          <p class="mt-3 text-muted">The builder’s on-site sales team represents the builder. {agent.firstName} — certified in new-home sales ({agent.designations.filter((d) => ['CNHS', 'RCC'].includes(d.code)).map((d) => d.code).join(' and ')}) — represents <em>you</em>: comparing builders and communities, reviewing contracts, options, lot premiums and incentives, and staying with you through every walkthrough to closing.</p>
+          <p class="mt-4 rounded-xl bg-ivory-deep p-4 text-sm text-ink"><strong>Tip:</strong> Many builders require your agent to be registered on your <em>first</em> visit. Call {agent.firstName} before you tour a model home.</p>
+        </article>
+        <article id="investment" class="card scroll-mt-28 p-8 sm:p-10" data-reveal>
+          <span class="flex h-12 w-12 items-center justify-center rounded-full bg-navy text-gold-light"><Icon name="trending" size={22} /></span>
+          <h3 class="mt-6 text-3xl text-navy">Investment property</h3>
+          <p class="mt-3 text-muted">Buying a rental or investment property in Central Ohio? {agent.firstName} helps you compare neighborhoods, rents and resale potential, run the numbers with you, and negotiate the best possible deal.</p>
+          <ul class="mt-5 space-y-2 text-sm">
+            {['Single-family rentals and land', 'Local rent and resale insight', 'Strong, data-backed negotiation'].map((b) => <li class="flex gap-3"><Icon name="check" size={18} class="mt-0.5 text-gold" strokeWidth={2.25} />{b}</li>)}
+          </ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="border-y border-line bg-white/60 py-20 sm:py-24">
+    <div class="container-x">
+      <SectionHeading eyebrow="Client stories" title="Buyers who found their place." align="center" />
+      <div class="mt-12"><Testimonials ids={['relocation', 'syed', 'delaware']} /></div>
+    </div>
+  </section>
+
+  <section class="py-20 sm:py-28">
+    <div class="container-x grid items-center gap-12 lg:grid-cols-2 lg:gap-20">
+      <div data-reveal>
+        <p class="eyebrow">First time? Moving up?</p>
+        <h2 class="mt-4 text-[clamp(2.1rem,4.2vw,3.2rem)] text-navy">Get the Buyer’s Guide.</h2>
+        <p class="mt-6 text-lg leading-relaxed text-muted">Pre-approval, buyer agreements, making a competitive offer, inspections and closing costs — explained in plain English for today’s Central Ohio market.</p>
+      </div>
+      <div class="card p-7 sm:p-9" data-reveal>
+        <GuideForm idPrefix="buy-guide" guide="Buyer's Guide" />
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-ivory-deep/60 py-20 sm:py-24">
+    <div class="container-x">
+      <SectionHeading eyebrow="Where to live" title="Explore the communities." />
+      <div class="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        {communities.slice(0, 6).map((c, i) => <CommunityCard community={c} index={i} />)}
+      </div>
+    </div>
+  </section>
+
+  <section class="py-20 sm:py-28">
+    <div class="container-x grid gap-12 lg:grid-cols-[0.8fr_1.2fr]">
+      <SectionHeading eyebrow="Buyer FAQs" title="What buyers ask most." />
+      <FAQ items={buyerFaqs} />
+    </div>
+  </section>
+
+  <CTABand title="Let’s find your next home." />
+</Base>

@@ -1,0 +1,99 @@
+---
+import { agent, brokerage, nav } from '../config/site';
+import { communities } from '../data/communities';
+import { rich } from '../lib/text';
+import BrandLockup from './BrandLockup.astro';
+import EqualHousing from './EqualHousing.astro';
+import Icon from './Icon.astro';
+const year = new Date().getFullYear();
+const socials = [
+  { name: 'instagram', href: agent.social.instagram, label: 'Instagram' },
+  { name: 'facebook', href: agent.social.facebook, label: 'Facebook' },
+  { name: 'linkedin', href: agent.social.linkedin, label: 'LinkedIn' },
+  { name: 'youtube', href: agent.social.youtube, label: 'YouTube' },
+].filter((s) => s.href) as { name: 'instagram' | 'facebook' | 'linkedin' | 'youtube'; href: string; label: string }[];
+---
+<footer class="on-dark bg-navy-deep text-ivory/80">
+  <div class="container-x grid gap-12 py-16 md:grid-cols-12">
+    <div class="md:col-span-5">
+      <BrandLockup tone="light" />
+      <p class="mt-2 text-sm tracking-wide text-gold-light">{agent.title} · Serving Westerville &amp; Central Ohio</p>
+      <ul class="mt-6 space-y-3 text-[0.95rem]">
+        <li>
+          <a href={`tel:${agent.phoneE164}`} data-track-location="footer" class="inline-flex items-center gap-3 hover:text-ivory">
+            <Icon name="phone" size={18} class="text-gold-light" /> <span>Mobile: <span set:html={rich(agent.phoneDisplay)} /></span>
+          </a>
+        </li>
+        <li>
+          <a href={`sms:${agent.smsE164}`} data-track-location="footer" class="inline-flex items-center gap-3 hover:text-ivory">
+            <Icon name="message" size={18} class="text-gold-light" /> Text {agent.firstName}
+          </a>
+        </li>
+        <li>
+          <a href={agent.emailHref} data-track-location="footer" class="inline-flex items-center gap-3 hover:text-ivory">
+            <Icon name="mail" size={18} class="text-gold-light" /> <span set:html={rich(agent.email)} />
+          </a>
+        </li>
+        <li class="flex items-start gap-3">
+          <Icon name="pin" size={18} class="mt-1 text-gold-light" />
+          <span>
+            <span set:html={rich(brokerage.name)} /><br />
+            <span set:html={rich(brokerage.street)} /><br />
+            {brokerage.city}, {brokerage.region} <span set:html={rich(brokerage.postalCode)} /><br />
+            Office: <a href={`tel:${brokerage.phoneE164}`} data-track-location="footer_office" class="hover:text-ivory" set:html={rich(brokerage.phoneDisplay)} />
+          </span>
+        </li>
+      </ul>
+      {socials.length > 0 && (
+        <ul class="mt-6 flex gap-2">
+          {socials.map((s) => (
+            <li>
+              <a href={s.href} rel="noopener" target="_blank" class="inline-flex h-11 w-11 items-center justify-center rounded-full border border-ivory/20 hover:border-gold-light hover:text-gold-light">
+                <Icon name={s.name} size={18} label={s.label} />
+              </a>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+
+    <nav aria-label="Footer" class="md:col-span-3">
+      <h2 class="font-sans text-xs font-semibold uppercase tracking-[0.2em] text-gold-light">Explore</h2>
+      <ul class="mt-4 space-y-2.5 text-[0.95rem]">
+        {nav.map((n) => <li><a href={n.href} class="hover:text-ivory">{n.label}</a></li>)}
+        <li><a href="/guides/" class="hover:text-ivory">Free guides</a></li>
+        <li><a href="/listings/" class="hover:text-ivory">Listings</a></li>
+      </ul>
+    </nav>
+
+    <nav aria-label="Communities" class="md:col-span-4">
+      <h2 class="font-sans text-xs font-semibold uppercase tracking-[0.2em] text-gold-light">Communities</h2>
+      <ul class="mt-4 grid grid-cols-2 gap-x-6 gap-y-2.5 text-[0.95rem]">
+        {communities.map((c) => <li><a href={`/communities/${c.slug}/`} class="hover:text-ivory">{c.name}</a></li>)}
+      </ul>
+    </nav>
+  </div>
+
+  <div class="border-t border-ivory/10">
+    <div class="container-x flex flex-col gap-6 py-8 text-xs leading-relaxed text-ivory/65 md:flex-row md:items-start md:justify-between">
+      <div class="max-w-3xl space-y-2">
+        <p>
+          {agent.name}, {agent.title}, {agent.designations.map((d) => d.code).join(', ')}, is a licensed real estate salesperson in Ohio (<span set:html={rich(agent.licenseNumber)} />) affiliated with{' '}
+          <span set:html={rich(brokerage.name)} />. {brokerage.disclaimer}
+        </p>
+        <p>
+          We are pledged to the letter and spirit of U.S. policy for the achievement of equal housing opportunity throughout the nation.{' '}
+          <a href="/fair-housing/" class="link-underline">Fair housing statement</a>. Information deemed reliable but not guaranteed. Not intended to solicit properties currently listed with another broker.
+        </p>
+        <p>
+          © {year} {agent.name}{' · '}
+          <a href="/privacy/" class="link-underline">Privacy</a>{' · '}
+          <a href="/sms-terms/" class="link-underline">SMS terms</a>{' · '}
+          <a href="/terms/" class="link-underline">Terms</a>{' · '}
+          <a href="/accessibility/" class="link-underline">Accessibility</a>
+        </p>
+      </div>
+      <EqualHousing class="text-ivory/80" />
+    </div>
+  </div>
+</footer>

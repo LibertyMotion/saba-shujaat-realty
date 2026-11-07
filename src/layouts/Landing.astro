@@ -1,0 +1,40 @@
+---
+/**
+ * Ad landing page chrome: no main navigation (fewer exits = higher conversion),
+ * brokerage name as prominent as the agent's (Ohio rule), phone CTA, and a
+ * compact compliance footer. Always noindex — ad traffic only. Google AdsBot
+ * can still crawl it (not blocked in robots.txt).
+ */
+import Base from './Base.astro';
+import BrandLockup from '../components/BrandLockup.astro';
+import EqualHousing from '../components/EqualHousing.astro';
+import Icon from '../components/Icon.astro';
+import { agent, brokerage } from '../config/site';
+import { rich } from '../lib/text';
+interface Props { title: string; description: string; formAnchor?: string; primaryLabel?: string }
+const { title, description, formAnchor = '#form', primaryLabel = 'Get started' } = Astro.props;
+---
+<Base title={title} description={description} noindex chrome="none" mobileCta={{ primaryHref: formAnchor, primaryLabel }}>
+  <header slot="header" class="border-b border-line bg-ivory">
+    <div class="container-x flex min-h-[4.5rem] items-center justify-between gap-4 py-3">
+      <BrandLockup href={null} />
+      <a href={`tel:${agent.phoneE164}`} data-track-location="lp_header" class="btn btn-outline hidden !min-h-11 !px-5 text-sm sm:inline-flex">
+        <Icon name="phone" size={16} /> <span set:html={rich(agent.phoneDisplay)} />
+      </a>
+    </div>
+  </header>
+  <slot />
+  <footer slot="footer" class="border-t border-line bg-ivory-deep/60">
+    <div class="container-x flex flex-col gap-5 py-8 text-xs leading-relaxed text-muted md:flex-row md:items-center md:justify-between">
+      <div class="max-w-3xl space-y-1.5">
+        <p>
+          {agent.name}, {agent.title} · Ohio <span set:html={rich(agent.licenseNumber)} /> ·
+          <span set:html={rich(brokerage.name)} />, <span set:html={rich(brokerage.street)} />, {brokerage.city}, {brokerage.region} · Office <span set:html={rich(brokerage.phoneDisplay)} />
+        </p>
+        <p>{brokerage.disclaimer} Equal Housing Opportunity. A market analysis is not an appraisal. Not intended to solicit properties currently listed with another broker.</p>
+        <p><a href="/privacy/" class="link-underline">Privacy</a> · <a href="/sms-terms/" class="link-underline">SMS terms</a> · <a href="/terms/" class="link-underline">Terms</a> · <a href="/fair-housing/" class="link-underline">Fair housing</a></p>
+      </div>
+      <EqualHousing class="text-navy" />
+    </div>
+  </footer>
+</Base>

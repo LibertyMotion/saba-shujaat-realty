@@ -1,0 +1,13 @@
+---
+/** Equal Housing Opportunity mark (simplified vector) + label. */
+interface Props { class?: string }
+const { class: className = '' } = Astro.props;
+---
+<span class:list={['inline-flex items-center gap-2', className]}>
+  <svg width="30" height="30" viewBox="0 0 64 64" role="img" aria-label="Equal Housing Opportunity" fill="none" stroke="currentColor" stroke-width="4">
+    <path d="M6 28 32 8l26 20" stroke-linejoin="round" />
+    <path d="M12 24v32h40V24" stroke-linejoin="round" />
+    <path d="M22 34h20M22 44h20" stroke-linecap="square" />
+  </svg>
+  <span class="text-[0.7rem] font-semibold uppercase leading-tight tracking-wider">Equal Housing<br />Opportunity</span>
+</span>

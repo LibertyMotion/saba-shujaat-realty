@@ -1,0 +1,51 @@
+---
+import LeadForm from './LeadForm.astro';
+import Field from './Field.astro';
+import ChoiceGroup from './ChoiceGroup.astro';
+import Consent from './Consent.astro';
+
+interface Props { idPrefix: string; class?: string; heading?: string; headingLevel?: 'h2' | 'h3' }
+const { idPrefix, class: className = '', heading } = Astro.props;
+const H = Astro.props.headingLevel ?? 'h3';
+const PHONE = '^(\\+?1[\\s.\\-]?)?\\(?\\d{3}\\)?[\\s.\\-]?\\d{3}[\\s.\\-]?\\d{4}$';
+---
+<LeadForm name="contact" leadType="contact" successUrl="/thank-you/contact/" class={className}>
+  {heading && <H class="mb-5 font-display text-2xl text-navy sm:text-[1.7rem]">{heading}</H>}
+  <div class="grid gap-4 sm:grid-cols-2">
+    <Field id={`${idPrefix}-name`} name="name" label="Full name" required autocomplete="name" class="sm:col-span-2" minlength={2} />
+    <Field id={`${idPrefix}-email`} name="email" type="email" label="Email" required autocomplete="email" inputmode="email" />
+    <Field id={`${idPrefix}-phone`} name="phone" type="tel" label="Phone (optional)" autocomplete="tel" inputmode="tel" pattern={PHONE} />
+    <Field
+      id={`${idPrefix}-interest`}
+      name="interest"
+      label="I’m interested in"
+      as="select"
+      required
+      class="sm:col-span-2"
+      options={[
+        { value: 'selling', label: 'Selling a home' },
+        { value: 'buying', label: 'Buying a home' },
+        { value: 'sell-and-buy', label: 'Selling and buying' },
+        { value: 'relocating', label: 'Relocating to Central Ohio' },
+        { value: 'investing', label: 'Investment property' },
+        { value: 'other', label: 'Something else' },
+      ]}
+    />
+    <Field id={`${idPrefix}-message`} name="message" label="How can Saba help? (optional)" as="textarea" rows={4} class="sm:col-span-2" />
+    <div class="sm:col-span-2">
+      <ChoiceGroup
+        idPrefix={idPrefix}
+        name="preferred_contact"
+        legend="Best way to reach you (optional)"
+        cols={3}
+        options={[
+          { value: 'call', label: 'Call' },
+          { value: 'text', label: 'Text' },
+          { value: 'email', label: 'Email' },
+        ]}
+      />
+    </div>
+    <div class="sm:col-span-2"><Consent idPrefix={idPrefix} /></div>
+  </div>
+  <button type="submit" class="btn btn-primary mt-5 w-full sm:w-auto">Send message</button>
+</LeadForm>

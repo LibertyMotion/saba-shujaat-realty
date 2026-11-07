@@ -1,0 +1,38 @@
+---
+import { agent } from '../config/site';
+import { pickTestimonials } from '../data/testimonials';
+import { rich } from '../lib/text';
+import Icon from './Icon.astro';
+interface Props { ids?: string[]; limit?: number; showLink?: boolean; layout?: 'grid' | 'masonry' }
+const { ids, limit = 3, showLink = true, layout = 'grid' } = Astro.props;
+const items = pickTestimonials(ids).slice(0, ids ? ids.length : limit);
+---
+<div>
+  <ul class:list={[layout === 'grid' ? 'grid gap-6 md:grid-cols-3' : 'gap-6 md:columns-2 lg:columns-3 [&>li]:mb-6 [&>li]:break-inside-avoid']}>
+    {items.map((t, i) => (
+      <li class="card flex flex-col p-7 sm:p-8" data-reveal style={`transition-delay:${(i % 3) * 80}ms`}>
+        {t.rating ? (
+          <div class="mb-5 flex gap-1 text-gold" aria-label={`${t.rating} out of 5 stars`} role="img">
+            {Array.from({ length: t.rating }).map(() => <Icon name="star" size={16} class="fill-current" />)}
+          </div>
+        ) : (
+          <span aria-hidden="true" class="mb-3 font-display text-5xl leading-none text-gold/70">“</span>
+        )}
+        <blockquote class:list={['flex-1 font-display leading-snug text-navy', t.quote.length > 320 ? 'text-[1.12rem]' : 'text-[1.3rem]']}>
+          <span set:html={rich(t.quote)} />
+        </blockquote>
+        <div class="mt-6 border-t border-line pt-4 text-sm">
+          <p class="font-semibold text-navy" set:html={rich(t.name)} />
+          <p class="text-muted"><span set:html={rich(t.context)} /> · via {t.source}</p>
+        </div>
+      </li>
+    ))}
+  </ul>
+  {showLink && (
+    <p class="mt-8 text-center">
+      <a href={agent.social.zillow} target="_blank" rel="noopener" class="link-underline inline-flex items-center gap-2 font-semibold text-navy">
+        Read all of {agent.firstName}’s reviews on Zillow <Icon name="external" size={16} />
+      </a>
+    </p>
+  )}
+</div>
