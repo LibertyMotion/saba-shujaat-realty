@@ -8,14 +8,15 @@ import { agent } from '../config/site';
 import { testimonials } from '../data/testimonials';
 ---
 <Base title="Client Reviews" description={`Read reviews from buyers and sellers who worked with ${agent.name}, Westerville real estate agent.`}>
-  <PageHero eyebrow="Reviews" title="Trusted by Central Ohio buyers & sellers." lead={`Eight five-star reviews on Zillow from buyers, sellers, investors and first-time homeowners across Central Ohio.`} crumbs={[{ label: 'Reviews' }]}>
+  <PageHero eyebrow="Reviews" title="Trusted by Central Ohio buyers & sellers." lead={`Eight five-star reviews from buyers, sellers, investors and first-time homeowners — copied word for word from ${agent.firstName}’s Zillow profile, with the original names and dates.`} crumbs={[{ label: 'Reviews' }]}>
     <div class="mt-8 flex flex-wrap gap-3">
-      <a href={agent.social.zillow} target="_blank" rel="noopener" class="btn btn-outline">Reviews on Zillow <Icon name="external" size={16} /></a>
+      <a href={agent.social.zillow} target="_blank" rel="noopener" class="btn btn-outline">See them on Zillow <Icon name="external" size={16} /></a>
+      <a href={agent.social.remax} target="_blank" rel="noopener" class="btn btn-outline">{agent.firstName}’s RE/MAX profile <Icon name="external" size={16} /></a>
       {agent.social.googleBusiness && <a href={agent.social.googleBusiness} target="_blank" rel="noopener" class="btn btn-outline">Reviews on Google <Icon name="external" size={16} /></a>}
     </div>
   </PageHero>
   <section class="py-20 sm:py-24">
-    <div class="container-x"><Testimonials limit={testimonials.length} showLink={false} layout="masonry" /></div>
+    <div class="container-x"><Testimonials limit={testimonials.length} showLink={false} layout="masonry" clamp={false} /></div>
   </section>
   <section class="border-t border-line bg-white/60 py-16">
     <div class="container-x text-center">

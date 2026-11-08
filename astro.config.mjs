@@ -18,6 +18,7 @@ const base = process.env.BASE_PATH || '/';
  * Pages use root-relative links ("/buy/"). When the site is served from a
  * sub-folder, prefix them after the build so they keep working.
  */
+/** @returns {import('astro').AstroIntegration} */
 function prefixRootLinks() {
   const prefix = base.replace(/\/$/, '');
   return {
@@ -26,6 +27,7 @@ function prefixRootLinks() {
       'astro:build:done': ({ dir }) => {
         if (!prefix) return;
         const root = fileURLToPath(dir);
+        /** @type {(d: string) => string[]} */
         const walk = (d) =>
           readdirSync(d).flatMap((f) => {
             const p = join(d, f);

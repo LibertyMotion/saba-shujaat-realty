@@ -27,6 +27,18 @@ if (toggle && panel) {
   panel.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => set(false)));
 }
 
+// "Read full review" toggles on long testimonials
+document.querySelectorAll<HTMLButtonElement>('[data-review-toggle]').forEach((btn) => {
+  const quote = document.getElementById(btn.getAttribute('aria-controls') || '');
+  if (!quote) return;
+  btn.addEventListener('click', () => {
+    const open = btn.getAttribute('aria-expanded') !== 'true';
+    quote.classList.toggle('is-expanded', open);
+    btn.setAttribute('aria-expanded', String(open));
+    btn.textContent = open ? 'Show less' : 'Read full review';
+  });
+});
+
 // Header shadow once the page scrolls
 const header = document.querySelector<HTMLElement>('[data-site-header]');
 if (header) {

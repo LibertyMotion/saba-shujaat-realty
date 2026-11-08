@@ -13,7 +13,8 @@ Still needed:
 - [ ] Full name of the **CNHS** designation (shown as "Certified New Home Specialist — confirm")
 - [ ] Approve the lightly edited About story and short bio (`src/pages/about.astro`, `agent.shortBio`). They're Saba's words, tidied for the web.
 - [ ] Optional: homes-sold count or Zillow sales stats for the trust bar
-- [ ] Optional: confirm reviewer display names. Reviews show first name + initial, or "Zillow reviewer" for usernames. Ask clients' permission if possible.
+- [ ] Reviews are copied word for word from Zillow, with the original names, dates and transaction details, and each links back to Saba's Zillow profile. Add new reviews to the top of `src/data/testimonials.ts` as they come in.
+- [ ] Optional, for automatic sync: ask the RE/MAX Affiliates office whether Saba's RE/MAX (booj) tools include Zillow's official reviews feed for partner sites, or whether Saba has a RealSatisfied profile (RE/MAX Affiliates has an office page there) that offers an embeddable widget.
 - [ ] Social links and Google Business Profile URL
 - [ ] Optional: booking link (Calendly, etc.) → `agent.bookingUrl`
 - [ ] Optional: 60–90 second intro video for the About page
