@@ -79,7 +79,7 @@ export const stats: { value: string; label: string }[] = [
   { value: '14', label: 'Years in real estate' },
   { value: '16', label: 'Years living in Powell' },
   { value: '3', label: 'Languages: English, Urdu & Hindi' },
-  { value: '41', label: 'Client reviews on Zillow' },
+  { value: '41', label: 'Five-star reviews on Zillow' },
 ];
 
 /**
@@ -88,7 +88,7 @@ export const stats: { value: string; label: string }[] = [
  */
 export const reviews = {
   zillowCount: 41,
-  rating: null as null | string,
+  rating: '5.0' as null | string, // confirmed: all 41 Zillow reviews are 5.0
   /**
    * Optional auto-syncing reviews widget (Elfsight, JustReview, Poper, etc.).
    * Paste the provider's embed code here and it appears on the Reviews page.

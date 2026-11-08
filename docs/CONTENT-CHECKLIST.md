@@ -14,7 +14,7 @@ Still needed:
 - [ ] Approve the lightly edited About story and short bio (`src/pages/about.astro`, `agent.shortBio`). They're Saba's words, tidied for the web.
 - [ ] Optional: homes-sold count or Zillow sales stats for the trust bar
 - [ ] Reviews are copied word for word from Zillow, with the original names, dates and transaction details, and each links back to Saba's Zillow profile. Add new reviews to the top of `src/data/testimonials.ts` as they come in.
-- [ ] **Add the other 33 Zillow reviews.** Paste them into `src/data/testimonials.ts` in the same format, or send them to whoever maintains the site. Then set `reviews.rating` in `src/config/site.ts` once the overall Zillow rating is confirmed.
+- [ ] **Add the other 33 Zillow reviews.** Paste them into `src/data/testimonials.ts` in the same format, or send them to whoever maintains the site.
 - [ ] Or, for hands-off syncing, sign up for a reviews widget (Elfsight, JustReview, Poper…) and paste its embed code into `reviews.widgetHtml`. Check Zillow's terms and the broker's policy first.
 - [ ] Optional, for automatic sync: ask the RE/MAX Affiliates office whether Saba's RE/MAX (booj) tools include Zillow's official reviews feed for partner sites, or whether Saba has a RealSatisfied profile (RE/MAX Affiliates has an office page there) that offers an embeddable widget.
 - [ ] Social links and Google Business Profile URL
