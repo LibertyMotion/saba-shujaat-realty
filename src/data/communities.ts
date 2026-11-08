@@ -120,7 +120,7 @@ const all: Community[] = [
     commute: 'Typically 25–35 minutes to downtown Columbus.',
     nearby: ['dublin', 'lewis-center', 'delaware', 'worthington'],
     localTake:
-      'Powell has been Saba’s home for 16 years — so this is a neighbor’s perspective, not just market data. Saba has helped clients buy and sell right here in Powell, including investment purchases. Ask about specific subdivisions, nearby new construction, and what homes like yours are selling for.',
+      'Powell has been Saba’s home for 22 years — so this is a neighbor’s perspective, not just market data. Saba has helped clients buy and sell right here in Powell, including investment purchases. Ask about specific subdivisions, nearby new construction, and what homes like yours are selling for.',
   },
   {
     slug: 'galena',

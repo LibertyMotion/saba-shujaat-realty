@@ -3,7 +3,7 @@
 Everything highlighted in yellow on the site is a placeholder. Run `npm run build && npm run check:content` to list what's left. **Nothing about Saba was invented.** Every fact, stat and review must come from Saba or from verified public profiles.
 
 ## A. From Saba (most of this lives in `src/config/site.ts`)
-Already added (Nov 2026): headshot, bio and About story, license #2012001243, mobile (614) 230-5225, email, brokerage (RE/MAX Affiliates, 570 N State Street, Suite 110, Westerville, OH 43082, (614) 891-1661), languages (English, Urdu, Hindi), designations, specialties, civic activities, 14 years of experience, 16 years in Powell,, and 8 of Saba's 41 Zillow reviews (word for word).
+Already added (Nov 2026): headshot, bio and About story, license #2012001243, mobile (614) 230-5225, email, brokerage (RE/MAX Affiliates, 570 N State Street, Suite 110, Westerville, OH 43082, (614) 891-1661), languages (English, Urdu, Hindi), designations, specialties, civic activities, 14 years of experience, 22 years in Powell, and 8 of Saba's 41 Zillow reviews (word for word).
 
 Still needed:
 - [ ] Confirm "RE/MAX Affiliates" is the exact office name as registered with the Ohio Division of Real Estate (Ohio requires it exactly as licensed)
@@ -20,7 +20,7 @@ Still needed:
 - [ ] Social links and Google Business Profile URL
 - [ ] Optional: booking link (Calendly, etc.) → `agent.bookingUrl`
 - [ ] Optional: 60–90 second intro video for the About page
-- [ ] Saba's own "local take" for each community page. Powell is done (16-year resident); the other 11 still need 2–3 sentences each.
+- [ ] Saba's own "local take" for each community page. Powell is done (22-year resident); the other 11 still need 2–3 sentences each.
 - [ ] Confirm the service promises (`promises`): home value report "within 24 hours", replies "the same business day"
 - [ ] Confirm the selling services listed on `/sell/` (professional photography, etc.) match what Saba actually provides
 - [ ] **Read all site copy.** It's drafted in Saba's first-person voice and needs Saba's approval.

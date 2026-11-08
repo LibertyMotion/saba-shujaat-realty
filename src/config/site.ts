@@ -37,7 +37,7 @@ export const agent = {
   headshot: headshotImg as null | ImageMetadata,
   languages: ['English', 'Urdu', 'Hindi'],
   yearsExperience: 14,
-  yearsInPowell: 16,
+  yearsInPowell: 22,
   designations: [
     { code: 'ABR®', name: 'Accredited Buyer’s Representative' },
     { code: 'CNE', name: 'Certified Negotiation Expert' },
@@ -50,7 +50,7 @@ export const agent = {
   philosophy:
     'My philosophy is to provide my clients with both enough time and enough education on the buying and selling process to help them make the best decision for their new beginnings.',
   shortBio:
-    'For 14 years I’ve proudly served Central Ohio buyers and sellers — and I’ve called Powell home for 16. You can always expect open, honest, consistent communication, and the time and education to make the best decision for your new beginning — in English, Urdu or Hindi.',
+    'For 14 years I’ve proudly served Central Ohio buyers and sellers — and I’ve called Powell home for 22. You can always expect open, honest, consistent communication, and the time and education to make the best decision for your new beginning — in English, Urdu or Hindi.',
   social: {
     zillow: 'https://www.zillow.com/profile/SabaShujaat',
     remax: 'https://www.remax.com/usa/en/real-estate-agents/saba-shujaat-westerville-oh/100042303',
@@ -77,7 +77,7 @@ export const brokerage = {
 /** Headline stats in the trust bar. Leave `value` as todo() until verified; delete rows you don't want. */
 export const stats: { value: string; label: string }[] = [
   { value: '14', label: 'Years in real estate' },
-  { value: '16', label: 'Years living in Powell' },
+  { value: '22', label: 'Years living in Powell' },
   { value: '3', label: 'Languages: English, Urdu & Hindi' },
   { value: '41', label: 'Five-star reviews on Zillow' },
 ];
