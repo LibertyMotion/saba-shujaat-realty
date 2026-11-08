@@ -10,7 +10,7 @@ import CTABand from '../components/CTABand.astro';
 import Icon from '../components/Icon.astro';
 import HomeValueForm from '../components/forms/HomeValueForm.astro';
 import { Image } from 'astro:assets';
-import { agent, brokerage, promises, stats } from '../config/site';
+import { agent, brokerage, promises, reviews } from '../config/site';
 import { communities } from '../data/communities';
 import { rich } from '../lib/text';
 import { homeFaqs } from '../data/faqs';
@@ -28,7 +28,7 @@ const steps = [
   { title: 'Expert execution', body: 'From preparation and marketing to showings and offers, every step is handled with care.' },
   { title: 'Confident closing', body: 'Skilled negotiation and steady communication through inspection, appraisal and closing day.' },
 ];
-const reviewStat = stats.find((s) => s.label.toLowerCase().includes('review'));
+
 ---
 <Base schema={[]}>
   <!-- HERO -->
@@ -60,10 +60,10 @@ const reviewStat = stats.find((s) => s.label.toLowerCase().includes('review'));
         </p>
 
         <div class="mt-10 flex flex-wrap items-center gap-x-8 gap-y-4 border-t border-line pt-6">
-          {reviewStat && (
+          {reviews.zillowCount > 0 && (
             <a href="/reviews/" class="flex items-center gap-3 hover:opacity-80">
               <div class="flex text-gold" aria-hidden="true">{[0, 1, 2, 3, 4].map(() => <Icon name="star" size={16} class="fill-current" />)}</div>
-              <p class="text-sm text-muted"><strong class="text-navy">{reviewStat.value} five-star reviews</strong> on Zillow</p>
+              <p class="text-sm text-muted">{reviews.rating && <><strong class="text-navy">{reviews.rating}</strong> · </>}<strong class="text-navy">{reviews.zillowCount} reviews</strong> on Zillow</p>
             </a>
           )}
           <p class="flex items-center gap-2 text-sm text-muted"><Icon name="globe" size={18} class="text-gold" /> {agent.languages.join(' · ')}</p>

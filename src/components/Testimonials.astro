@@ -4,7 +4,7 @@
  * source. Long reviews are clamped (JS only) with a "Read full review" toggle —
  * the full, unedited text is always in the page.
  */
-import { agent } from '../config/site';
+import { agent, reviews } from '../config/site';
 import { pickTestimonials, formatReviewDate } from '../data/testimonials';
 import Icon from './Icon.astro';
 interface Props { ids?: string[]; limit?: number; showLink?: boolean; layout?: 'grid' | 'masonry'; clamp?: boolean }
@@ -59,7 +59,7 @@ const LONG = clamp ? 600 : Infinity; // only the very long reviews get a toggle
   {showLink && (
     <p class="mt-8 text-center">
       <a href={agent.social.zillow} target="_blank" rel="noopener" class="link-underline inline-flex items-center gap-2 font-semibold text-navy">
-        Read all of {agent.firstName}’s reviews on Zillow <Icon name="external" size={16} />
+        Read all {reviews.zillowCount} of {agent.firstName}’s reviews on Zillow <Icon name="external" size={16} />
       </a>
     </p>
   )}

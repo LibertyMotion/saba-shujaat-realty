@@ -4,11 +4,11 @@ import PageHero from '../components/PageHero.astro';
 import Testimonials from '../components/Testimonials.astro';
 import CTABand from '../components/CTABand.astro';
 import Icon from '../components/Icon.astro';
-import { agent } from '../config/site';
+import { agent, reviews } from '../config/site';
 import { testimonials } from '../data/testimonials';
 ---
 <Base title="Client Reviews" description={`Read reviews from buyers and sellers who worked with ${agent.name}, Westerville real estate agent.`}>
-  <PageHero eyebrow="Reviews" title="Trusted by Central Ohio buyers & sellers." lead={`Eight five-star reviews from buyers, sellers, investors and first-time homeowners — copied word for word from ${agent.firstName}’s Zillow profile, with the original names and dates.`} crumbs={[{ label: 'Reviews' }]}>
+  <PageHero eyebrow="Reviews" title="Trusted by Central Ohio buyers & sellers." lead={`${agent.firstName} has ${reviews.zillowCount} client reviews on Zillow${reviews.rating ? ` (${reviews.rating} rating)` : ''}. ${reviews.widgetHtml ? 'They’re shown below, straight from Zillow.' : `Below are ${testimonials.length === reviews.zillowCount ? 'all of them' : `${testimonials.length} of them`}, copied word for word with the original names and dates.`}`} crumbs={[{ label: 'Reviews' }]}>
     <div class="mt-8 flex flex-wrap gap-3">
       <a href={agent.social.zillow} target="_blank" rel="noopener" class="btn btn-outline">See them on Zillow <Icon name="external" size={16} /></a>
       <a href={agent.social.remax} target="_blank" rel="noopener" class="btn btn-outline">{agent.firstName}’s RE/MAX profile <Icon name="external" size={16} /></a>
@@ -16,7 +16,20 @@ import { testimonials } from '../data/testimonials';
     </div>
   </PageHero>
   <section class="py-20 sm:py-24">
-    <div class="container-x"><Testimonials limit={testimonials.length} showLink={false} layout="masonry" clamp={false} /></div>
+    <div class="container-x">
+      {reviews.widgetHtml ? (
+        <div class="min-h-[30rem]"><Fragment set:html={reviews.widgetHtml} /></div>
+      ) : (
+        <>
+          <Testimonials limit={testimonials.length} showLink={false} layout="masonry" clamp={false} />
+          {testimonials.length < reviews.zillowCount && (
+            <p class="mt-6 text-center">
+              <a href={agent.social.zillow} target="_blank" rel="noopener" class="btn btn-outline">Read all {reviews.zillowCount} reviews on Zillow <Icon name="external" size={16} /></a>
+            </p>
+          )}
+        </>
+      )}
+    </div>
   </section>
   <section class="border-t border-line bg-white/60 py-16">
     <div class="container-x text-center">

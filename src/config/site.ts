@@ -79,8 +79,24 @@ export const stats: { value: string; label: string }[] = [
   { value: '14', label: 'Years in real estate' },
   { value: '16', label: 'Years living in Powell' },
   { value: '3', label: 'Languages: English, Urdu & Hindi' },
-  { value: '8', label: 'Five-star Zillow reviews' },
+  { value: '41', label: 'Client reviews on Zillow' },
 ];
+
+/**
+ * Zillow review summary shown in the hero and on the Reviews page.
+ * Set `rating` (e.g. '5.0') only once confirmed on Saba's Zillow profile.
+ */
+export const reviews = {
+  zillowCount: 41,
+  rating: null as null | string,
+  /**
+   * Optional auto-syncing reviews widget (Elfsight, JustReview, Poper, etc.).
+   * Paste the provider's embed code here and it appears on the Reviews page.
+   * Example: '<script src="https://static.elfsight.com/platform/platform.js" async></script><div class="elfsight-app-XXXX"></div>'
+   * Note: these widgets copy Zillow's public profile — check Zillow's terms and the broker's policy first.
+   */
+  widgetHtml: '',
+};
 
 /** Service promises shown on the site — confirm Saba is comfortable committing to these. */
 export const promises = {

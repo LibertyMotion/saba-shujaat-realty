@@ -3,7 +3,7 @@
 Everything highlighted in yellow on the site is a placeholder. Run `npm run build && npm run check:content` to list what's left. **Nothing about Saba was invented.** Every fact, stat and review must come from Saba or from verified public profiles.
 
 ## A. From Saba (most of this lives in `src/config/site.ts`)
-Already added (Nov 2026): headshot, bio and About story, license #2012001243, mobile (614) 230-5225, email, brokerage (RE/MAX Affiliates, 570 N State Street, Suite 110, Westerville, OH 43082, (614) 891-1661), languages (English, Urdu, Hindi), designations, specialties, civic activities, 14 years of experience, 16 years in Powell, and 8 Zillow reviews.
+Already added (Nov 2026): headshot, bio and About story, license #2012001243, mobile (614) 230-5225, email, brokerage (RE/MAX Affiliates, 570 N State Street, Suite 110, Westerville, OH 43082, (614) 891-1661), languages (English, Urdu, Hindi), designations, specialties, civic activities, 14 years of experience, 16 years in Powell,, and 8 of Saba's 41 Zillow reviews (word for word).
 
 Still needed:
 - [ ] Confirm "RE/MAX Affiliates" is the exact office name as registered with the Ohio Division of Real Estate (Ohio requires it exactly as licensed)
@@ -14,6 +14,8 @@ Still needed:
 - [ ] Approve the lightly edited About story and short bio (`src/pages/about.astro`, `agent.shortBio`). They're Saba's words, tidied for the web.
 - [ ] Optional: homes-sold count or Zillow sales stats for the trust bar
 - [ ] Reviews are copied word for word from Zillow, with the original names, dates and transaction details, and each links back to Saba's Zillow profile. Add new reviews to the top of `src/data/testimonials.ts` as they come in.
+- [ ] **Add the other 33 Zillow reviews.** Paste them into `src/data/testimonials.ts` in the same format, or send them to whoever maintains the site. Then set `reviews.rating` in `src/config/site.ts` once the overall Zillow rating is confirmed.
+- [ ] Or, for hands-off syncing, sign up for a reviews widget (Elfsight, JustReview, Poper…) and paste its embed code into `reviews.widgetHtml`. Check Zillow's terms and the broker's policy first.
 - [ ] Optional, for automatic sync: ask the RE/MAX Affiliates office whether Saba's RE/MAX (booj) tools include Zillow's official reviews feed for partner sites, or whether Saba has a RealSatisfied profile (RE/MAX Affiliates has an office page there) that offers an embeddable widget.
 - [ ] Social links and Google Business Profile URL
 - [ ] Optional: booking link (Calendly, etc.) → `agent.bookingUrl`
